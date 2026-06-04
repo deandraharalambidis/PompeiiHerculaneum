@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pompeii &amp; Herculaneum — Visual Overview</title>
+<style>
+  :root {
+    --bg: #f5ede6;
+    --surface: #ffffff;
+    --surface2: #fdf5f0;
+    --accent: #8B1A1A;
+    --accent2: #6b1313;
+    --gold: #7a4f2e;
+    --teal: #6b3a2a;
+    --purple: #5c2a4a;
+    --blue: #3a4a6b;
+    --text: #1a0a00;
+    --muted: #6b4a3a;
+    --border: rgba(139,26,26,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Calibri', 'Calibri Light', Candara, Optima, sans-serif; font-size: 15px; line-height: 1.6; }
+
+  /* HEADER */
+  header { background: linear-gradient(135deg, #8B1A1A 0%, #6b1313 40%, #5a0f0f 100%); padding: 40px 24px 28px; text-align: center; border-bottom: 3px solid #5a0f0f; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+  header h1 { font-size: clamp(1.6rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.5px; color: #fff; position: relative; }
+  header h1 span { color: #f5c9a0; }
+  header p.sub { color: #f0c8a8; margin-top: 6px; font-size: 0.95rem; position: relative; }
+  header p.hsc { display: inline-block; margin-top: 12px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.5); color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.8rem; letter-spacing: 0.5px; position: relative; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(90,15,15,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border: 1px solid var(--border); border-radius: 12px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 28px; position: relative; box-shadow: 0 8px 40px rgba(139,26,26,0.18); }
+  .modal h3 { font-size: 1.2rem; color: var(--accent); margin-bottom: 10px; }
+  .modal .close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted); font-size: 1.4rem; cursor: pointer; line-height: 1; }
+  .modal .close:hover { color: var(--accent); }
+  .modal p { color: #4a2a1a; font-size: 0.92rem; line-height: 1.65; }
+  .modal .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-top: 10px; }
+
+  /* NAV TABS */
+  nav.tabs { background: #8B1A1A; border-bottom: 2px solid #5a0f0f; overflow-x: auto; display: flex; gap: 0; padding: 0 12px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(139,26,26,0.2); }
+  nav.tabs button { background: none; border: none; color: rgba(255,255,255,0.7); padding: 14px 18px; font-size: 0.85rem; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  nav.tabs button:hover { color: #fff; }
+  nav.tabs button.active { color: #fff; border-bottom-color: #f5c9a0; font-weight: 600; }
+
+  /* PANELS */
+  .panel { display: none; padding: 28px 20px; max-width: 1100px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* PHASE BAR */
+  .phases { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .phase-btn { flex: 1; min-width: 140px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 14px 12px; cursor: pointer; text-align: center; transition: all 0.2s; color: var(--text); }
+  .phase-btn:hover, .phase-btn.active { background: #8B1A1A; border-color: #8B1A1A; color: #fff; }
+  .phase-btn:hover .num, .phase-btn.active .num { color: rgba(255,255,255,0.7); }
+  .phase-btn:hover .dates, .phase-btn.active .dates { color: #f5c9a0; }
+  .phase-btn .num { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .phase-btn .label { font-size: 0.88rem; font-weight: 600; margin-top: 4px; }
+  .phase-btn .dates { font-size: 0.78rem; color: var(--accent); margin-top: 2px; }
+  .phase-detail { background: #fff; border: 1px solid var(--border); border-left: 4px solid #8B1A1A; border-radius: 10px; padding: 20px; display: none; margin-bottom: 24px; }
+  .phase-detail.show { display: block; }
+
+  /* TIMELINE — horizontal landscape */
+  .tl-scroll { overflow-x: auto; padding-bottom: 16px; margin-top: 8px; }
+  .tl-track { display: flex; align-items: flex-start; gap: 0; min-width: max-content; padding: 0 8px; }
+  .tl-item-h { display: flex; flex-direction: column; align-items: center; min-width: 150px; max-width: 170px; cursor: pointer; position: relative; }
+  .tl-item-h:hover .tl-card { border-color: #8B1A1A; background: #fdf0ec; transform: translateY(-3px); box-shadow: 0 6px 18px rgba(139,26,26,0.13); }
+  /* connector line between items */
+  .tl-item-h::after { content: ''; position: absolute; top: 43px; left: calc(50% + 7px); width: calc(100% - 14px); height: 2px; background: rgba(139,26,26,0.2); z-index: 0; }
+  .tl-item-h:last-child::after { display: none; }
+  .tl-dot-h { width: 14px; height: 14px; border-radius: 50%; background: #8B1A1A; border: 3px solid #fff; box-shadow: 0 0 0 2px #8B1A1A; flex-shrink: 0; z-index: 1; margin-top: 37px; }
+  .tl-year-h { font-size: 0.95rem; font-weight: 700; color: #8B1A1A; margin-bottom: 6px; text-align: center; }
+  .tl-card { background: #fff; border: 1px solid rgba(139,26,26,0.18); border-radius: 8px; padding: 10px 12px; margin-top: 10px; width: 140px; transition: all 0.2s; }
+  .tl-card h4 { font-size: 0.8rem; font-weight: 700; color: #1a0a00; line-height: 1.3; }
+  .tl-card p { font-size: 0.73rem; color: var(--muted); margin-top: 4px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .tl-badge { display: inline-block; font-size: 0.68rem; padding: 1px 7px; border-radius: 10px; margin-top: 5px; font-weight: 600; }
+  .badge-erupt { background: rgba(139,26,26,0.12); color: #8B1A1A; }
+  .badge-arch { background: rgba(90,60,20,0.12); color: #5a3c14; }
+  .badge-political { background: rgba(58,74,107,0.12); color: #3a4a6b; }
+  .badge-discovery { background: rgba(122,79,46,0.15); color: #7a4f2e; }
+  .badge-turning { background: rgba(92,42,74,0.12); color: #5c2a4a; }
+
+  /* GRID CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 16px; }
+  .card { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s; }
+  .card:hover { border-color: #8B1A1A; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(139,26,26,0.12); }
+  .card .card-icon { font-size: 1.5rem; margin-bottom: 8px; }
+  .card h4 { font-size: 0.95rem; font-weight: 600; color: #1a0a00; }
+  .card .card-role { font-size: 0.78rem; color: var(--accent); margin-top: 2px; font-weight: 600; }
+  .card p { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+
+  /* GEOGRAPHY */
+  .geo-map { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 20px; margin-bottom: 20px; overflow: hidden; }
+  .geo-map svg { width: 100%; max-width: 700px; display: block; margin: 0 auto; }
+  .geo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .geo-box { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 18px; transition: all 0.2s; }
+  .geo-box:hover { border-color: #8B1A1A; box-shadow: 0 2px 10px rgba(139,26,26,0.1); }
+  .geo-box h4 { font-size: 0.95rem; font-weight: 600; color: #8B1A1A; margin-bottom: 8px; }
+  .geo-box p { font-size: 0.85rem; color: var(--muted); }
+
+  /* CAUSES */
+  .causes { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  .cause-item { display: flex; gap: 16px; align-items: flex-start; background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+  .cause-item:hover { border-color: #8B1A1A; background: #fdf0ec; }
+  .cause-num { font-size: 1.5rem; font-weight: 800; color: rgba(139,26,26,0.25); min-width: 36px; line-height: 1; }
+  .cause-text h4 { font-size: 0.93rem; font-weight: 600; color: #1a0a00; }
+  .cause-text p { font-size: 0.83rem; color: var(--muted); margin-top: 3px; }
+
+  /* EVIDENCE */
+  .evidence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-top: 16px; }
+  .ev-card { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .ev-card:hover { border-color: #8B1A1A; background: #fdf0ec; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(139,26,26,0.1); }
+  .ev-card .ev-icon { font-size: 2rem; margin-bottom: 8px; }
+  .ev-card h4 { font-size: 0.88rem; font-weight: 600; color: #1a0a00; }
+  .ev-card p { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+  /* DEBATE BOXES */
+  .debate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 16px; }
+  .debate-box { background: #fff; border-left: 4px solid #8B1A1A; border-radius: 0 10px 10px 0; padding: 18px; box-shadow: 0 1px 6px rgba(139,26,26,0.07); }
+  .debate-box.teal { border-color: #5a3c2a; }
+  .debate-box.purple { border-color: #5c2a4a; }
+  .debate-box.gold { border-color: #7a4f2e; }
+  .debate-box.blue { border-color: #3a4a6b; }
+  .debate-box h4 { font-size: 0.93rem; font-weight: 700; margin-bottom: 6px; color: #1a0a00; }
+  .debate-box .quote { font-style: italic; font-size: 0.85rem; color: #8B1A1A; margin-bottom: 8px; }
+  .debate-box p { font-size: 0.83rem; color: var(--muted); }
+
+  /* STRATEGIES */
+  .strat-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+  @media (max-width: 600px) { .strat-cols { grid-template-columns: 1fr; } }
+  .strat-col h3 { font-size: 1rem; font-weight: 700; padding: 10px 14px; border-radius: 8px 8px 0 0; margin-bottom: 0; }
+  .strat-col.neg h3 { background: rgba(139,26,26,0.12); color: #8B1A1A; }
+  .strat-col.pos h3 { background: rgba(90,60,20,0.1); color: #5a3c14; }
+  .strat-item { background: #fff; border: 1px solid rgba(139,26,26,0.15); padding: 12px 14px; margin-top: 8px; border-radius: 8px; }
+  .strat-item h4 { font-size: 0.88rem; font-weight: 600; color: #1a0a00; }
+  .strat-item p { font-size: 0.8rem; color: var(--muted); margin-top: 3px; }
+  .strat-item .result { font-size: 0.78rem; margin-top: 5px; font-weight: 600; }
+  .result.bad { color: #8B1A1A; }
+  .result.good { color: #5a3c14; }
+
+  /* TURNING POINTS */
+  .tp-list { display: flex; flex-direction: column; gap: 0; margin-top: 16px; }
+  .tp-item { display: grid; grid-template-columns: 80px 1fr; gap: 12px; cursor: pointer; }
+  .tp-item:hover .tp-box { border-color: #8B1A1A; background: #fdf0ec; }
+  .tp-year { display: flex; flex-direction: column; align-items: flex-end; padding-top: 16px; }
+  .tp-year span { font-weight: 700; color: var(--accent); font-size: 0.95rem; }
+  .tp-box { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 8px; padding: 16px; margin: 6px 0; transition: all 0.2s; }
+  .tp-box h4 { font-size: 0.93rem; font-weight: 600; color: #1a0a00; }
+  .tp-box p { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+  .tp-box .pivotal { font-size: 0.8rem; color: #5a3c14; margin-top: 6px; font-style: italic; }
+
+  /* OUTCOMES */
+  .outcomes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 16px; }
+  .outcome-box { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 18px; }
+  .outcome-box h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; color: #1a0a00; }
+  .outcome-box p { font-size: 0.83rem; color: var(--muted); }
+
+  /* STATS */
+  .stats-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+  .stat-box { background: #8B1A1A; border: 1px solid #6b1313; border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 130px; text-align: center; }
+  .stat-box .stat-num { font-size: 1.8rem; font-weight: 800; color: #fff; }
+  .stat-box .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
+
+  /* HISTORIANS */
+  .hist-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  .hist-item { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 16px 18px; cursor: pointer; transition: all 0.2s; }
+  .hist-item:hover { border-color: #8B1A1A; background: #fdf0ec; }
+  .hist-item .hist-name { font-weight: 700; font-size: 0.95rem; color: #1a0a00; }
+  .hist-item .hist-type { font-size: 0.75rem; padding: 2px 10px; border-radius: 10px; margin-left: 8px; }
+  .primary { background: rgba(139,26,26,0.1); color: #8B1A1A; }
+  .modern { background: rgba(58,74,107,0.1); color: #3a4a6b; }
+  .hist-item .hist-quotes { margin: 8px 0 6px; display: flex; flex-direction: column; gap: 5px; }
+  .hist-item .hist-quote { font-style: italic; font-size: 0.83rem; color: #8B1A1A; padding-left: 10px; border-left: 2px solid rgba(139,26,26,0.25); line-height: 1.45; }
+  .hist-item .hist-use { font-size: 0.82rem; color: var(--muted); padding-top: 6px; border-top: 1px solid rgba(139,26,26,0.1); margin-top: 4px; }
+
+  /* SECTION HEADINGS */
+  .section-head { margin-bottom: 20px; }
+  .section-head h2 { font-size: 1.3rem; font-weight: 700; color: #1a0a00; }
+  .section-head p { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
+  .divider { border: none; border-top: 1px solid rgba(139,26,26,0.15); margin: 28px 0; }
+
+  /* CONSERVATION ITEMS */
+  .cons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-top: 16px; }
+  .cons-item { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 16px; }
+  .cons-item .cons-icon { font-size: 1.4rem; margin-bottom: 6px; }
+  .cons-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; color: #1a0a00; }
+  .cons-item p { font-size: 0.82rem; color: var(--muted); }
+  .warning { border-color: rgba(139,26,26,0.35) !important; background: #fff8f6 !important; }
+  .warning h4 { color: #8B1A1A; }
+
+  /* FIGURES TABLE */
+  .figures-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  .figure-row { background: #fff; border: 1px solid rgba(139,26,26,0.15); border-radius: 10px; padding: 16px 18px; display: grid; grid-template-columns: 180px 1fr 1fr 140px; gap: 14px; align-items: start; transition: all 0.2s; }
+  .figure-row:hover { border-color: #8B1A1A; background: #fdf8f6; }
+  .figure-row .fig-name { font-weight: 700; font-size: 0.92rem; color: #1a0a00; }
+  .figure-row .fig-role { font-size: 0.78rem; color: #8B1A1A; margin-top: 3px; }
+  .figure-row .fig-col h5 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 4px; }
+  .figure-row .fig-col p { font-size: 0.8rem; color: #3a2010; line-height: 1.45; }
+  .figure-row .fig-col .fig-quote { font-style: italic; font-size: 0.78rem; color: #8B1A1A; }
+  .fig-syllabus { display: flex; flex-direction: column; gap: 4px; }
+  .fig-tag { display: inline-block; font-size: 0.68rem; padding: 2px 8px; border-radius: 10px; background: rgba(139,26,26,0.1); color: #8B1A1A; font-weight: 600; white-space: nowrap; }
+  .figures-header { display: grid; grid-template-columns: 180px 1fr 1fr 140px; gap: 14px; padding: 8px 18px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); font-weight: 700; }
+  @media (max-width: 700px) { .figure-row, .figures-header { grid-template-columns: 1fr; } }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #f5ede6; }
+  ::-webkit-scrollbar-thumb { background: rgba(139,26,26,0.2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">×</button>
+    <h3 id="modal-title"></h3>
+    <p id="modal-body"></p>
+    <span id="modal-tag" class="tag"></span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <h1>Pompeii &amp; <span>Herculaneum</span></h1>
+  <p class="sub">Interactive revision resource — click any card or element for full detail</p>
+  <p class="hsc">HSC Ancient History · Core Study: Cities of Vesuvius · NSW Syllabus</p>
+</header>
+
+<!-- NAV TABS -->
+<nav class="tabs">
+  <button class="active" onclick="showPanel('timeline',this)">⏱ Timeline</button>
+  <button onclick="showPanel('geography',this)">🗺 Geography</button>
+  <button onclick="showPanel('eruption',this)">🌋 Eruption</button>
+  <button onclick="showPanel('people',this)">👥 People</button>
+  <button onclick="showPanel('society',this)">🏛 Focus Study</button>
+  <button onclick="showPanel('interp',this)">🔄 Changing Interpretations</button>
+  <button onclick="showPanel('conservation',this)">🏗 Issues of Conservation &amp; Reconstruction</button>
+  <button onclick="showPanel('ethics',this)">⚖ Ethical Issues</button>
+  <button onclick="showPanel('tourism',this)">🚌 Tourism</button>
+</nav>
+
+<!-- ===== TIMELINE PANEL ===== -->
+<div class="panel active" id="panel-timeline">
+  <div class="section-head">
+    <h2>Five phases of study — click a phase for detail</h2>
+  </div>
+  <div class="phases">
+    <div class="phase-btn" onclick="togglePhase('p1',this)">
+      <div class="num">Phase 1</div>
+      <div class="label">Survey &amp; Context</div>
+      <div class="dates">Geography &amp; Setting</div>
+    </div>
+    <div class="phase-btn" onclick="togglePhase('p2',this)">
+      <div class="num">Phase 2</div>
+      <div class="label">The Eruption</div>
+      <div class="dates">AD 79</div>
+    </div>
+    <div class="phase-btn" onclick="togglePhase('p3',this)">
+      <div class="num">Phase 3</div>
+      <div class="label">Excavations</div>
+      <div class="dates">18th–20th Century</div>
+    </div>
+    <div class="phase-btn" onclick="togglePhase('p4',this)">
+      <div class="num">Phase 4</div>
+      <div class="label">Focus of Study</div>
+      <div class="dates">Society &amp; Daily Life</div>
+    </div>
+    <div class="phase-btn" onclick="togglePhase('p5',this)">
+      <div class="num">Phase 5</div>
+      <div class="label">Reconstructing &amp; Conserving</div>
+      <div class="dates">Modern Challenges</div>
+    </div>
+  </div>
+
+  <div id="p1" class="phase-detail">
+    <h3 style="color:var(--accent);margin-bottom:8px">Survey &amp; Context</h3>
+    <p style="color:var(--muted);font-size:0.9rem">Pompeii and Herculaneum were Roman cities in the region of Campania — known to Romans as <em>Campania Felix</em> ("fortunate Campania"). The fertile volcanic soil, mild climate and sheltered Bay of Naples made the region one of the most prosperous in the Roman Empire. The area supported wine, olive oil, grain and garum production, and attracted wealthy Romans as a holiday destination. The key to understanding the sites lies in recognising that their destruction was also their preservation.</p>
+  </div>
+  <div id="p2" class="phase-detail">
+    <h3 style="color:var(--accent);margin-bottom:8px">The Eruption of AD 79</h3>
+    <p style="color:var(--muted);font-size:0.9rem">Mount Vesuvius erupted in a catastrophic multi-phase eruption. After an initial pumice fall (Plinian phase), a series of pyroclastic density currents (PDCs) buried both cities. Herculaneum was buried up to 23 metres deep; Pompeii under 4–5 metres. Vulcanologist Haraldur Sigurdsson reconstructed the eruption sequence by studying grain sizes in volcanic strata and comparing with the 1980 Mt St Helens eruption and Pliny the Younger's eyewitness account. The traditional date of 24 August has been challenged — a graffito found in 2018 in Regio V suggests 17 October (or late October) as the true date.</p>
+  </div>
+  <div id="p3" class="phase-detail">
+    <h3 style="color:var(--accent);margin-bottom:8px">Discovery &amp; Excavation</h3>
+    <p style="color:var(--muted);font-size:0.9rem">Pompeii was accidentally discovered in 1592 when workmen digging a canal found marble slabs and frescoed walls. Herculaneum was discovered in 1709 by Austrian Count d'Elbeuf. Systematic excavation began in 1748 under de Alcubierre — initially treasure-hunting in style. Giuseppe Fiorelli (1860) revolutionised the field by introducing systematic region-numbering, top-down excavation and the iconic plaster cast technique. Subsequent directors Spinazzola (1910–23) and Maiuri (1923–61) continued the work, though the latter's methods were sometimes controversial. Today the Great Pompeii Project (2012–) leads conservation-focused work.</p>
+  </div>
+  <div id="p4" class="phase-detail">
+    <h3 style="color:var(--accent);margin-bottom:8px">Focus of Study — Evidence &amp; Society</h3>
+    <p style="color:var(--muted);font-size:0.9rem">The HSC Focus of Study examines a wide range of evidence: site layout, streetscapes, public and private buildings, inscriptions, graffiti, wall paintings, mosaics, statues, human and animal remains. This evidence illuminates the economy (forum, trade, garum, bakeries), social structure (elite, freedmen, slaves), local politics (duumviri, aediles, comitium), everyday life (housing, baths, food, leisure), religion (household gods, imperial cult, mystery cults) and the influence of Greek and Egyptian cultures.</p>
+  </div>
+  <div id="p5" class="phase-detail">
+    <h3 style="color:var(--accent);margin-bottom:8px">Reconstructing &amp; Conserving the Past</h3>
+    <p style="color:var(--muted);font-size:0.9rem">New technologies — CT scanning, GIS mapping, 3D modelling, X-ray phase-contrast tomography and isotope analysis — continue to transform our understanding of the sites. Major conservation challenges include water damage, plant growth, animal activity, poor drainage, and mass tourism (3+ million visitors per year). A 2011 UNESCO/ICOMOS report identified serious conservation failures. International contributions include the Packard Humanities Institute at Herculaneum and the EU's funding of conservation works. Ethical debates surround the excavation and display of human remains.</p>
+  </div>
+
+  <hr class="divider">
+  <div class="section-head"><h2>Key dates — click for context</h2></div>
+
+  <script>
+    const dates = [
+      {year:"62 AD", title:"Earthquake of 62 AD", desc:"A major earthquake 'largely demolished the populous Campanian town of Pompeii' (Tacitus). Repairs were still incomplete at the time of the 79 AD eruption, suggesting the local economy was also affected. People did not connect earthquakes with volcanic activity.", badge:"badge-erupt", badgeText:"Seismic"},
+      {year:"79 AD", title:"Eruption of Vesuvius — AD 79", desc:"Mount Vesuvius erupted in a catastrophic multi-phase event. The traditional date is 24 August, but a graffito found in 2018 (Regio V) suggests late October. Pliny the Younger, 32km away at Misenum, was an eyewitness and wrote two letters to Tacitus describing the event. Sigurdsson identified six separate pyroclastic surges. Pompeii was buried under 4–5m; Herculaneum under up to 23m.", badge:"badge-erupt", badgeText:"Eruption"},
+      {year:"1592", title:"Accidental Discovery of Pompeii", desc:"Workmen digging a canal discovered marble slabs and frescoed walls at the site of Pompeii. Latin inscriptions were also found in 1689, though their significance was not recognised at the time.", badge:"badge-discovery", badgeText:"Discovery"},
+      {year:"1709", title:"Discovery of Herculaneum", desc:"Austrian Count d'Elbeuf built a villa nearby and, during the construction of a well, discovered the ancient theatre of Herculaneum. He later stripped the theatre of marble fragments for his own villa.", badge:"badge-discovery", badgeText:"Discovery"},
+      {year:"1748", title:"Systematic Excavation Begins", desc:"Formal excavations began at both sites. Work was initially crude — treasure-hunting in style — with little documentation. Swiss engineer Karl Weber joined in 1750 and began drawing up plans and maps, introducing more systematic methods.", badge:"badge-arch", badgeText:"Archaeology"},
+      {year:"1860", title:"Fiorelli Appointed Superintendent", desc:"Giuseppe Fiorelli revolutionised archaeology at Pompeii. He divided the site into regions (insulae), introduced top-down systematic excavation, and invented the plaster cast technique — pouring liquid plaster into voids left by decomposed human and animal remains. By his promotion in 1875, three-fifths of Pompeii had been excavated.", badge:"badge-arch", badgeText:"Archaeology"},
+      {year:"1910", title:"Spinazzola — Via dell'Abbondanza", desc:"Vittorio Spinazzola (1910–1923) focused on urban planning. He excavated the main commercial road, the Via dell'Abbondanza, uncovering shop frontages. However, he rarely excavated beyond the façade, and had to shore up walls to hold the earth behind.", badge:"badge-arch", badgeText:"Archaeology"},
+      {year:"1923", title:"Maiuri Takes Over", desc:"Amedeo Maiuri became director and remained until 1961 — the longest tenure. Described by Wallace-Hadrill as 'a towering figure...endlessly energetic, learned and imaginative.' He argued both cities were in economic decline before 79 AD due to the 62 AD earthquake. Pompeii was seriously damaged by Allied bombing in WWII.", badge:"badge-arch", badgeText:"Archaeology"},
+      {year:"1980", title:"Earthquake &amp; International Conservation", desc:"A 1980 earthquake prompted the appointment of French archaeologist Jean-Pierre Adam to evaluate restoration methods. The European Community funded 36 billion lire (≈AUD$70 million) for Pompeii's restoration in 1984. Conservation replaced excavation as the priority.", badge:"badge-political", badgeText:"Conservation"},
+      {year:"2012", title:"The Great Pompeii Project", desc:"Launched in response to international criticism following the collapse of the House of the Gladiators in 2010, the Great Pompeii Project brought new investment and a conservation-first approach. New finds include a fast-food thermopolium, a ceremonial chariot, and victims in Regio V, as well as the October graffito that revised the eruption date.", badge:"badge-arch", badgeText:"Modern"},
+      {year:"2018", title:"Graffito Revises Eruption Date", desc:"During Regio V excavations, archaeologists uncovered a charcoal graffito reading 'the 16th day before the calends of November' — equating to 17 October in the modern calendar. This challenges the traditional August date and is now accepted by most archaeologists as strong evidence for a late-October eruption.", badge:"badge-turning", badgeText:"Turning Point"},
+    ];
+    </script>
+  <div class="tl-scroll">
+    <div class="tl-track" id="timeline-render"></div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-head"><h2>Key statistics</h2></div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num">1,214</div><div class="stat-label">Bodies found at Pompeii</div></div>
+    <div class="stat-box"><div class="stat-num">349</div><div class="stat-label">Bodies found at Herculaneum</div></div>
+    <div class="stat-box"><div class="stat-num">23m</div><div class="stat-label">Depth Herculaneum was buried</div></div>
+    <div class="stat-box"><div class="stat-num">4–5m</div><div class="stat-label">Depth Pompeii was buried</div></div>
+    <div class="stat-box"><div class="stat-num">3.2km</div><div class="stat-label">Length of Pompeii's walls</div></div>
+    <div class="stat-box"><div class="stat-num">3M+</div><div class="stat-label">Visitors per year today</div></div>
+    <div class="stat-box"><div class="stat-num">30</div><div class="stat-label">Bakeries identified at Pompeii</div></div>
+    <div class="stat-box"><div class="stat-num">11,000+</div><div class="stat-label">Graffiti found at Pompeii</div></div>
+    <div class="stat-box"><div class="stat-num">~20,000</div><div class="stat-label">Estimated population of Pompeii</div></div>
+    <div class="stat-box"><div class="stat-num">1,800</div><div class="stat-label">Carbonised scrolls — Villa of Papyri</div></div>
+    <div class="stat-box"><div class="stat-num">800 yrs</div><div class="stat-label">Since last eruption before 79 AD</div></div>
+    <div class="stat-box"><div class="stat-num">400°C</div><div class="stat-label">Temperature of pyroclastic surges</div></div>
+    <div class="stat-box"><div class="stat-num">⅔</div><div class="stat-label">Of Pompeii so far excavated</div></div>
+  </div>
+</div>
+
+<!-- ===== GEOGRAPHY PANEL ===== -->
+<div class="panel" id="panel-geography">
+  <div class="section-head">
+    <h2>Geographic context — Campania &amp; the Bay of Naples</h2>
+    <p>The setting of Pompeii and Herculaneum was central to their prosperity — and their destruction</p>
+  </div>
+
+  <div class="geo-map">
+    <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,sans-serif">
+      <!-- Sea -->
+      <rect width="680" height="340" fill="#0d1b2a"/>
+      <!-- Bay of Naples simplified shape -->
+      <ellipse cx="340" cy="230" rx="260" ry="110" fill="#1a3a5c" opacity="0.6"/>
+      <!-- Land mass - Italy -->
+      <path d="M60,30 L180,20 L320,60 L380,80 L420,100 L440,140 L420,180 L380,200 L340,210 L300,220 L240,230 L180,240 L120,250 L60,240 Z" fill="#2d4a1e" opacity="0.8"/>
+      <!-- Campanian plain -->
+      <ellipse cx="320" cy="160" rx="130" ry="80" fill="#3d5c28" opacity="0.6"/>
+      <!-- Vesuvius -->
+      <polygon points="340,60 310,130 370,130" fill="#5a3020"/>
+      <polygon points="340,60 325,100 355,100" fill="#8B4513"/>
+      <text x="344" y="55" fill="#e85d26" font-size="11" font-weight="700">⛰ Vesuvius</text>
+      <!-- Eruption plume hint -->
+      <ellipse cx="340" cy="50" rx="18" ry="8" fill="rgba(232,93,38,0.3)"/>
+      <!-- Pompeii -->
+      <circle cx="370" cy="155" r="8" fill="#e85d26"/>
+      <text x="382" y="159" fill="#fff" font-size="12" font-weight="600">Pompeii</text>
+      <!-- Herculaneum -->
+      <circle cx="305" cy="135" r="8" fill="#c0392b"/>
+      <text x="318" y="139" fill="#fff" font-size="12" font-weight="600">Herculaneum</text>
+      <!-- Naples -->
+      <circle cx="270" cy="175" r="6" fill="#f39c12"/>
+      <text x="280" y="179" fill="#f39c12" font-size="11">Naples</text>
+      <!-- Misenum -->
+      <circle cx="200" cy="210" r="5" fill="#1abc9c"/>
+      <text x="210" y="214" fill="#1abc9c" font-size="10">Misenum</text>
+      <!-- Sarno River -->
+      <path d="M420,120 Q390,140 370,160" stroke="#4a90d9" stroke-width="2" fill="none" opacity="0.7"/>
+      <text x="430" y="125" fill="#4a90d9" font-size="10">Sarno R.</text>
+      <!-- Bay label -->
+      <text x="340" y="280" fill="#4a90d9" font-size="13" text-anchor="middle" opacity="0.8">Bay of Naples</text>
+      <!-- Distance arrow Vesuvius to Herculaneum -->
+      <line x1="325" y1="120" x2="310" y2="128" stroke="#888" stroke-width="1" stroke-dasharray="3"/>
+      <text x="240" y="118" fill="#888" font-size="9">7km from peak</text>
+      <!-- Stabiae -->
+      <circle cx="420" cy="185" r="4" fill="#9b59b6"/>
+      <text x="428" y="189" fill="#9b59b6" font-size="10">Stabiae</text>
+      <!-- Legend -->
+      <rect x="20" y="20" width="150" height="100" fill="rgba(0,0,0,0.5)" rx="6"/>
+      <circle cx="35" cy="40" r="5" fill="#e85d26"/><text x="46" y="44" fill="#ccc" font-size="10">Pompeii</text>
+      <circle cx="35" cy="60" r="5" fill="#c0392b"/><text x="46" y="64" fill="#ccc" font-size="10">Herculaneum</text>
+      <circle cx="35" cy="80" r="5" fill="#f39c12"/><text x="46" y="84" fill="#ccc" font-size="10">Naples</text>
+      <circle cx="35" cy="100" r="5" fill="#1abc9c"/><text x="46" y="104" fill="#ccc" font-size="10">Misenum (Pliny)</text>
+    </svg>
+  </div>
+
+  <div class="geo-grid">
+    <div class="geo-box">
+      <h4>🌋 Mount Vesuvius</h4>
+      <p>A somma stratovolcano dominating the Campanian plain. Its rich volcanic soil — grey-black and rust-brown, high in phosphorus and potash — made the surrounding land exceptionally fertile. The last eruption before 79 AD had been 800 years earlier, so residents had no knowledge they lived near a volcano. Modern scientists monitor it with seismometers, GPS and gas analysis.</p>
+    </div>
+    <div class="geo-box">
+      <h4>🌊 Bay of Naples</h4>
+      <p>The sheltered bay provided anchorages for trading vessels and the Roman navy. Tacitus called it "a most beautiful bay — before the eruption changed the landscape." Wine, wheat, oil and garum were exported across the Mediterranean. The bay also attracted wealthy Romans as a holiday destination — emperors Nero and Augustus both owned villas in the region.</p>
+    </div>
+    <div class="geo-box">
+      <h4>🌾 Campanian Plain</h4>
+      <p>Romans called the region <em>Campania Felix</em> — "fortunate Campania." Hot dry summers and mild wet winters supported wheat, barley, peaches, figs, cabbages and onions. Vines were especially important: Pliny wrote that in Campania the vines "never stop growing," producing the famous Vesuviana wine. Grapevines, olives and sheep were the economic backbone.</p>
+    </div>
+    <div class="geo-box">
+      <h4>🏙 Pompeii vs Herculaneum</h4>
+      <p>Pompeii: larger city (~20,000 pop.), 3.2km defensive wall, seven gates, grid street system, strong commercial character. Herculaneum: smaller (~4,000–5,000 pop.), wealthier residential character, 7km from Vesuvius peak. Both show clear Roman urban planning with forum, baths, theatres and temples, but each city experienced the eruption differently due to wind direction.</p>
+    </div>
+    <div class="geo-box">
+      <h4>🐟 Coastline &amp; Marine Resources</h4>
+      <p>The coastline provided rich marine resources: fish and shellfish that fuelled the garum industry. Florus described Campania's coastline as "the finest, not only in Italy, but in the entire world." The port of Pompeii was less than 1km from the city centre, with 20 identified warehouses. The port made Pompeii a key node in Mediterranean trade.</p>
+    </div>
+    <div class="geo-box">
+      <h4>🪨 Local Materials</h4>
+      <p>Volcanic materials shaped the built environment: tufa and lava used for building; pumice stone for tools; volcanic sand mixed with lime for cement. Local clay enabled pottery production. Millstones made from basalt lava ground grain — Cato noted Pompeii's volcanic stone olive presses were the finest available. The volcano was as much a resource as a threat.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PEOPLE PANEL ===== -->
+<div class="panel" id="panel-people">
+  <div class="section-head">
+    <h2>Key individuals — click for detail and HSC use</h2>
+  </div>
+
+  <h3 style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Archaeologists &amp; Excavators</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Giuseppe Fiorelli','Superintendent of Pompeii from 1860. Fiorelli is considered the pioneer of modern archaeology at the site. He divided Pompeii into regions (Regio), blocks (insulae) and doorways — a numbering system still used today. He introduced systematic top-down excavation rather than random tunnelling. Most significantly, he invented the plaster cast technique: recognising that voids in hardened ash were the impressions of decomposed bodies, he poured liquid plaster into them to reveal the shapes of victims. By 1875, three-fifths of Pompeii was excavated under his direction.','badge-arch','Archaeologist')">
+      <div class="card-icon">🏺</div>
+      <h4>Giuseppe Fiorelli</h4>
+      <div class="card-role">Superintendent 1860 — Pioneer of modern excavation</div>
+      <p>Invented plaster casts; introduced systematic region-numbering; transformed the field</p>
+    </div>
+    <div class="card" onclick="showModal('Vittorio Spinazzola','Director 1910–1923. Spinazzola was interested in the urban planning aspects of Pompeii. Under his direction, most of the main commercial road the Via dell\'Abbondanza was uncovered. He excavated shop frontages but rarely beyond the façade. Because of this, walls had to be shored up to hold the weight of earth behind, and the function of many shops could only be guessed. Despite these limitations, his work greatly advanced understanding of street life in Pompeii.','badge-arch','Archaeologist')">
+      <div class="card-icon">🏛</div>
+      <h4>Vittorio Spinazzola</h4>
+      <div class="card-role">Director 1910–1923</div>
+      <p>Excavated Via dell'Abbondanza; focused on urban planning and streetscapes</p>
+    </div>
+    <div class="card" onclick="showModal('Amedeo Maiuri','Director 1923–1961 — the longest tenure of any superintendent. Wallace-Hadrill described him as \'a towering figure...endlessly energetic, learned and imaginative.\' Maiuri believed both Pompeii and Herculaneum were in economic decline before the eruption, attributing this to the aftermath of the 62 AD earthquake. Scholars including Jongman have since challenged this view. The most productive excavation period was the 1920s–30s under Mussolini\'s funding. After WWII bombing, work became hurried and underfunded until his retirement.','badge-arch','Archaeologist')">
+      <div class="card-icon">🔍</div>
+      <h4>Amedeo Maiuri</h4>
+      <div class="card-role">Director 1923–1961</div>
+      <p>Longest-serving director; controversial view of pre-eruption economic decline</p>
+    </div>
+    <div class="card" onclick="showModal('Karl Weber','Swiss engineer appointed to the excavation team in 1750. Johann Winckelmann credited Weber\'s \'good sense\' as the source of \'all the good steps since taken, to bring to light this treasure of antiquities.\' Weber began drawing up plans and maps of the excavations and recording finds — a major step forward from the treasure-hunting that preceded him.','badge-arch','Archaeologist')">
+      <div class="card-icon">📐</div>
+      <h4>Karl Weber</h4>
+      <div class="card-role">Swiss engineer, 1750</div>
+      <p>Introduced systematic mapping and documentation; praised by Winckelmann</p>
+    </div>
+    <div class="card" onclick="showModal('Haraldur Sigurdsson','Icelandic vulcanologist who worked at Pompeii and Herculaneum in the early 1980s. Sigurdsson reconstructed the phases of the eruption by examining grain sizes in the strata of volcanic material covering the cities. He compared his findings with the 1980 Mt St Helens eruption and Pliny the Younger\'s account. His six-phase reconstruction of the 79 AD eruption remains the scholarly consensus. He identified pyroclastic density currents (PDCs) as the primary cause of death at Herculaneum.','badge-arch','Vulcanologist')">
+      <div class="card-icon">🌋</div>
+      <h4>Haraldur Sigurdsson</h4>
+      <div class="card-role">Vulcanologist, 1980s</div>
+      <p>Reconstructed the eruption phases; confirmed PDCs killed Herculaneum\'s inhabitants</p>
+    </div>
+    <div class="card" onclick="showModal('Andrew Wallace-Hadrill','Director of the Herculaneum Conservation Project. Wallace-Hadrill described Maiuri as \'a towering figure.\' He is a strong advocate for conservation over new excavation, arguing: \'the logic that drives any modern excavation must be preservation, not the pursuit of a dream.\' He opposes resuming excavation of the Villa of the Papyri at Herculaneum until conservation of the existing site is complete.','badge-arch','Modern Archaeologist')">
+      <div class="card-icon">🏗</div>
+      <h4>Andrew Wallace-Hadrill</h4>
+      <div class="card-role">Herculaneum Conservation Project</div>
+      <p>Leading conservation advocate; opposes excavation before preservation is secured</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Ancient Writers &amp; Primary Figures</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Pliny the Younger','Gaius Caecilius Secundus (c.61–113 AD). Eighteen years old at the time of the eruption, Pliny was at Misenum (32km away) with his uncle Pliny the Elder. He wrote two letters to the historian Tacitus describing what he witnessed. These are the only surviving eyewitness accounts of the eruption. Pliny does not record the year, and omits the initial large detonation — likely because his purpose was to celebrate his uncle\'s bravery rather than to accurately document events. Use with awareness of his bias.','primary','Primary Source')">
+      <div class="card-icon">📜</div>
+      <h4>Pliny the Younger</h4>
+      <div class="card-role">Eyewitness, 2 letters to Tacitus</div>
+      <p>Only surviving eyewitness account of the eruption; written to celebrate his uncle</p>
+    </div>
+    <div class="card" onclick="showModal('Pliny the Elder','Admiral of the Roman fleet at Misenum and renowned natural historian (author of Naturalis Historia). He launched warships to rescue those caught on the coast and sailed to Stabiae, where he died. His nephew\'s account describes him as brave and curious, observing the eruption with scientific interest. He wrote about the vineyards of Campania and Pompeii\'s famous garum, making him a useful source for the region\'s economy.','primary','Primary Source')">
+      <div class="card-icon">⚓</div>
+      <h4>Pliny the Elder</h4>
+      <div class="card-role">Naval commander; natural historian</div>
+      <p>Died attempting rescue at Stabiae; wrote extensively on Campanian agriculture and garum</p>
+    </div>
+    <div class="card" onclick="showModal('Cornelius Tacitus','Roman historian (c.56–120 AD). Recipient of Pliny the Younger\'s two letters about the eruption. Also recorded that the earthquake of 62 AD \'largely demolished the populous Campanian town of Pompeii\'. Described the Bay of Naples as \'a most beautiful bay — before the eruption changed the landscape\' (Annals). Use as a corroborating source for both the earthquake and Pliny\'s reliability.','primary','Primary Source')">
+      <div class="card-icon">📖</div>
+      <h4>Tacitus</h4>
+      <div class="card-role">Historian; recipient of Pliny's letters</div>
+      <p>Recorded the 62 AD earthquake; described the Bay of Naples; corroborates Pliny</p>
+    </div>
+    <div class="card" onclick="showModal('Vitruvius','Roman architect and engineer (1st century BC). His work De architectura provides context for understanding Roman building techniques and the expected features of Roman houses. He noted that a garden was an essential feature for homes of people holding public office — useful when interpreting the peristyle gardens of Pompeii.','primary','Primary Source')">
+      <div class="card-icon">🏗</div>
+      <h4>Vitruvius</h4>
+      <div class="card-role">Roman architect; De architectura</div>
+      <p>Provides context for interpreting Roman house design and urban planning at the sites</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Modern Scholars</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Mary Beard','Cambridge classicist and author of The Fires of Vesuvius (2008). Beard argues that a very small portion of Pompeii\'s population actually died in the eruption, with most people escaping — supported by the analysis of names from Pompeii appearing in nearby towns. She notes evidence of people returning to the city shortly after the eruption to reclaim valuables or loot — possibly explaining some later skeletons found at the site. She argues that it \'doesn\'t really matter if tourists damage Pompeii,\' sparking debate about conservation ethics.','modern','Modern Scholar')">
+      <div class="card-icon">📚</div>
+      <h4>Mary Beard</h4>
+      <div class="card-role">The Fires of Vesuvius (2008)</div>
+      <p>Argues most people escaped; evidence of looting post-eruption; controversial on tourism</p>
+    </div>
+    <div class="card" onclick="showModal('Estelle Lazer','Bioarchaeologist who studied skeletal remains at Pompeii. In Resurrecting Pompeii, Lazer challenges earlier interpretations, arguing that people in Pompeii lived far longer lives than previously thought and challenging claims of poor health. She argues it is disrespectful to assign names and occupations to victims, as \'no one has their name engraved on their bones.\' She campaigns for bones to \'speak for themselves\' without embellishment.','modern','Modern Scholar')">
+      <div class="card-icon">🦴</div>
+      <h4>Estelle Lazer</h4>
+      <div class="card-role">Resurrecting Pompeii</div>
+      <p>Bioarchaeologist; argues against naming victims; longer life expectancy than assumed</p>
+    </div>
+    <div class="card" onclick="showModal('Willem Jongman','Economic historian who challenges Maiuri\'s decline thesis. Jongman argues that \'the continued existence of a town council could only be maintained by an influx of social climbers,\' suggesting that high rates of infant mortality and low life expectancy created opportunities for social mobility at Pompeii. He represents a more optimistic view of Pompeii\'s social and economic dynamics before 79 AD.','modern','Modern Scholar')">
+      <div class="card-icon">💰</div>
+      <h4>Willem Jongman</h4>
+      <div class="card-role">Economic historian</div>
+      <p>Challenges Maiuri's decline thesis; argues social mobility was enabled by demographic pressures</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-head">
+    <h2>Important figures of Pompeii &amp; Herculaneum</h2>
+    <p>Key individuals evidenced at the sites — their role, source evidence and applicable syllabus area</p>
+  </div>
+  <div class="figures-header">
+    <div>Figure</div>
+    <div>Famous for</div>
+    <div>Source evidence</div>
+    <div>Syllabus area</div>
+  </div>
+  <div class="figures-list">
+
+    <div class="figure-row">
+      <div><div class="fig-name">Eumachia</div><div class="fig-role">Priestess of Venus; public benefactor</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>Financed the construction of the Building of Eumachia in the Forum — the largest building in the forum complex and the headquarters of the fullers' guild. She held the prestigious title of public priestess of Venus, one of the most powerful religious roles available to women. She also funded the construction of a large tomb for herself outside the Nucerian Gate.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"Eumachia, daughter of Lucius, public priestess, in her own name and that of her son Marcus Numistrius Fronto, built the chalcidicum, crypta and portico at her own expense and consecrated them to Concordia Augusta and to Pietas." (Dedicatory inscription, Building of Eumachia)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Economy</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Religion</span><span class="fig-tag">Women</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Aulus Umbricius Scaurus</div><div class="fig-role">Garum manufacturer; wealthiest known trader</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>Pompeii's most famous garum (fish sauce) producer. His branded vessels have been found throughout Pompeii and across the wider Mediterranean, demonstrating an extensive trade network. His house — believed to be one of the largest in Pompeii — features a mosaic floor in the atrium advertising his garum products. He employed freed slaves (Umbricius Abascantus, Umbricius Agathopus, Umbricia Fortunata) to manage his business.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">Mosaic in atrium of his house depicting garum amphorae labelled "Scaurus' mackerel sauce from Scaurus' workshop." Marked vessels found throughout Pompeii and surroundings. Pliny the Elder names Pompeii's garum as among the finest. (Archaeological evidence + Pliny, Naturalis Historia)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Economy</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Freedmen</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Lucius Caecilius Lucundus</div><div class="fig-role">Banker; son of a freed slave</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>A successful Pompeian banker and property dealer, the son of a freed slave who became one of the best-documented individuals at the site. His archive of 153 wax tablets records his business dealings including property auctions, rental agreements and financial receipts. Each tablet lists witnesses in strict social order, providing unique evidence of how social class was formally acknowledged in everyday transactions. Demonstrates both economic opportunity and the ongoing importance of social hierarchy.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"Receipt of Lucius Caecilius Iucundus, that I have received from Umbricia Ianuaria the sum of 11,039 sesterces being the proceeds of a public auction held on her behalf, after deduction of my commission." (Lucundus Tablet — witnesses listed by social rank below)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Economy</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Freedmen</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Numerius Popidius Celsinus</div><div class="fig-role">Child benefactor; rebuilt Temple of Isis</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>Only six years old when he funded the complete rebuilding of the Temple of Isis after the 62 AD earthquake, using his father's wealth (Numerius Popidius Ampliatus, a wealthy freed slave). In return, the decuriones (town council) admitted young Celsinus to their order free of charge — despite his age and his father's freed slave status. This is one of the most remarkable examples of social mobility achieved through financial patronage at Pompeii.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"Numerius Popidius Celsinus, son of Numerius, rebuilt from its foundations the Temple of Isis which had collapsed in the earthquake. Because of his generosity the decurions admitted him to their order free of charge although he was only six years old." (Dedicatory inscription, Temple of Isis, Pompeii)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Religion</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Social Mobility</span><span class="fig-tag">Local Politics</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Julia Felix</div><div class="fig-role">Property owner; businesswoman</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>Owner of a large estate on the Via dell'Abbondanza that she converted into a commercial property after the 62 AD earthquake, when many Pompeian baths were damaged. She leased out her private baths, shops and upper rooms — the only woman known to have operated a private bath complex for public use. Her advertisement is one of the most detailed commercial inscriptions found at Pompeii, demonstrating female economic agency and entrepreneurship.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"To let, in the estate of Julia Felix, daughter of Spurius Felix: an elegant bath suitable for respectable people, taverns, shops and upper rooms, from the 13th of next August to the 13th of the sixth August hence, for a period of five years." (Commercial inscription, House of Julia Felix)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Economy</span><span class="fig-tag">Women</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Everyday Life</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Marcus Nonius Balbus</div><div class="fig-role">Patron of Herculaneum; senior magistrate</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>One of Herculaneum's most prominent benefactors and political figures, who served as praetor and proconsul. He funded extensive public works including the rebuilding of the basilica and town walls after the 62 AD earthquake. He was honoured with an equestrian statue in the forum and multiple honorary decrees. His family tomb was given a privileged position outside the city's main gate. He is the best example of the patron-client system operating at the highest levels in Herculaneum.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"To Marcus Nonius Balbus, son of Marcus, praetor, proconsul — the people of Herculaneum [erected this statue] in recognition of his many great services to the community." (Honorific inscription, Herculaneum — one of several surviving dedications to Balbus)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Local Politics</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Patron-Client</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Aulus Clodius Flaccus</div><div class="fig-role">Three-time duumvir; games sponsor</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>Elected duumvir of Pompeii three times — an unusual honour. His epitaph is one of the most detailed records of the obligations and expenditures of a senior magistrate. He funded lavish public games including bullfighters, Greek and Roman boxers, wild beast hunts and theatrical performances. His example illustrates the connection between political ambition, public generosity and the expectations placed on the elite under the Roman system of euergetism (competitive public benefaction).</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"Aulus Clodius Flaccus, son of Aulus... duumvir three times... gave to the people in the forum a procession, bulls, bullfighters and their assistants, and also boxers and Greek-style boxers and all their apparatuses, and also games with all their apparatus and every kind of entertainment." (Funerary epitaph, Pompeii)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Local Politics</span><span class="fig-tag">Everyday Life</span><span class="fig-tag">Social Structure</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Mamia</div><div class="fig-role">Public priestess; donor of the Temple of the Genius of Augustus</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>A public priestess who funded the construction of the Temple of the Genius of Augustus (the Imperial Cult temple) in the Forum at her own expense — a remarkable act of public benefaction for a woman. She also built a tomb for herself in the necropolis outside the Herculaneum Gate, where her epitaph records her official title. Her example demonstrates that women of the elite could hold public religious office and exercise significant influence through patronage, despite being excluded from political office.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"Mamia, daughter of Publius, public priestess, [gave] the site and building [of the temple] to the Genius of Augustus at her own expense." (Dedicatory inscription, Temple of the Genius of Augustus, Forum of Pompeii)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Religion</span><span class="fig-tag">Women</span><span class="fig-tag">Social Structure</span><span class="fig-tag">Imperial Cult</span></div>
+    </div>
+
+    <div class="figure-row">
+      <div><div class="fig-name">Gaius Julius Polybius</div><div class="fig-role">Most-attested election candidate; duumvir</div></div>
+      <div class="fig-col"><h5>Famous for</h5><p>The single most frequently mentioned candidate in the surviving programmata (election graffiti) of Pompeii, with over 50 programmata supporting his candidacy. His name appears on walls across the city, demonstrating the scale and organisation of Roman electoral campaigns. He was supported by a wide range of groups including bakers, muleteers and tavern keepers. His example reveals how political campaigns were organised, who could vote, and how candidates courted popular support through public visibility.</p></div>
+      <div class="fig-col"><h5>Source evidence</h5><p class="fig-quote">"I ask you to elect Gaius Julius Polybius as aedile. He gets good bread." (Programmata, Via dell'Abbondanza — one of 50+ surviving election slogans supporting Polybius)</p></div>
+      <div class="fig-syllabus"><span class="fig-tag">Local Politics</span><span class="fig-tag">Everyday Life</span><span class="fig-tag">Graffiti</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== ERUPTION PANEL ===== -->
+<div class="panel" id="panel-eruption">
+  <div class="section-head">
+    <h2>The Eruption of AD 79 — phases and impact</h2>
+  </div>
+
+  <h3 style="color:var(--gold);margin-bottom:12px;font-size:1rem">Phases of the eruption (Sigurdsson's reconstruction)</h3>
+  <div class="strat-cols">
+    <div>
+      <div class="strat-item" style="border-left:3px solid var(--accent)">
+        <h4>Phase 1 — Plinian Column</h4>
+        <p>Weak explosions followed by a massive eruption column 14–27km high. White pumice fell over Pompeii (wind direction spared Herculaneum). A 1-metre-thick layer covered Pompeii during this phase. Pliny described the cloud as resembling a pine tree — now called a "Plinian" eruption in his honour.</p>
+        <div class="result" style="color:var(--gold)">⚠ Pumice falls on Pompeii; Herculaneum relatively unaffected</div>
+      </div>
+      <div class="strat-item" style="border-left:3px solid #e74c3c;margin-top:8px">
+        <h4>Phase 2 — First Pyroclastic Surges (PDCs)</h4>
+        <p>The column partially collapsed, producing pyroclastic density currents (PDCs) at 330–500°C. Herculaneum was hit with a 1.5-metre layer of material. A third weak PDC reached 200 metres into Pompeii. At Herculaneum, those on the beach in boat sheds died within two minutes — temperatures of over 400°C caused fulminant shock.</p>
+        <div class="result bad">✕ Fatal for Herculaneum's remaining population</div>
+      </div>
+      <div class="strat-item" style="border-left:3px solid #e74c3c;margin-top:8px">
+        <h4>Phase 3 — Re-established Column &amp; Further PDCs</h4>
+        <p>A second column reached 32km. A second PDC left 7m of material over Herculaneum. Further surges hit Pompeii; people caught outside died of asphyxiation as spongy ash formed a paste in their lungs. One-third of Pompeii's victims were found outside buildings on top of pumice, suggesting they tried to escape but were caught in subsequent PDCs.</p>
+        <div class="result bad">✕ Mass casualties at both sites</div>
+      </div>
+      <div class="strat-item" style="border-left:3px solid #8B4513;margin-top:8px">
+        <h4>Phase 4 — Final Violent Surges</h4>
+        <p>The volcanic structure began to weaken. The most powerful PDC covered Pompeii at ~300km/h. Violent earthquakes, a tsunami-like sea withdrawal, and at least six total PDCs buried Pompeii under 2–5m and Herculaneum under up to 23m. Eight new volcanic ash layers have been found above Pompeii in recent excavations.</p>
+        <div class="result bad">✕ Cities completely buried; sealed for 1,700 years</div>
+      </div>
+    </div>
+    <div>
+      <div class="debate-box teal" style="margin-bottom:12px">
+        <h4>Impact on Pompeii</h4>
+        <p>Buried 4–5m deep. Most second storeys destroyed; ground floors preserved by pumice. 1,214 bodies found — one-third outside buildings. Many in the 'boxer posture' caused by extreme heat contracting muscles. At least 600 died when roofs collapsed under pumice weight. The absence of horses and pack animals suggests many people fled early.</p>
+      </div>
+      <div class="debate-box" style="margin-bottom:12px">
+        <h4>Impact on Herculaneum</h4>
+        <p>Buried up to 23m deep. Many second storeys survived — PDCs were less destructive than pumice falls for upper floors. 349 bodies found — most on the beach or in boat sheds. Flesh disappeared immediately, leaving skeletons with cracked skulls from thermal shock. The dense volcanic material (lar) dried like concrete, making excavation extremely difficult.</p>
+      </div>
+      <div class="debate-box gold">
+        <h4>The Date Debate</h4>
+        <p><strong>Traditional date:</strong> 24–25 August 79 AD (based on Pliny's letters).<br><br><strong>New evidence:</strong> Autumn fruits, braziers for warmth, a coin minted after September 79 AD, and — crucially — a charcoal graffito found in 2018 reading "the 16th day before the calends of November" (= 17 October) all point to a late October eruption.<br><br><strong>HSC use:</strong> Demonstrates how new evidence changes our understanding; shows the limits of ancient literary sources.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--gold);margin-bottom:12px;font-size:1rem">Why didn't people know the danger?</h3>
+  <div class="causes">
+    <div class="cause-item" onclick="showModal('No living memory of eruption','The last eruption of Vesuvius before 79 AD was approximately 800 years earlier — far beyond living memory and not recorded in any texts that would have been available to the inhabitants. According to Marshall, the people living in Campania simply would not have known that Mount Vesuvius was a volcano.','badge-erupt','Context')">
+      <div class="cause-num">01</div>
+      <div class="cause-text"><h4>No living memory of eruption</h4><p>The last eruption was ~800 years before 79 AD — no living memory, no written record available to residents</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Depictions of Vesuvius show one peak','Images of Vesuvius found at Pompeii and Herculaneum depict a mountain with only one summit. The modern volcano, a somma stratovolcano, has two peaks — the second was created by the 79 AD eruption itself. This visual evidence confirms that residents had no concept of the mountain as a volcano.','badge-erupt','Evidence')">
+      <div class="cause-num">02</div>
+      <div class="cause-text"><h4>Images showed a single-peaked mountain</h4><p>Frescoes show Vesuvius with one peak — the second was formed by the 79 AD eruption. Residents didn't recognise it as volcanic</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Earthquakes not linked to volcanic activity','According to Hurley, there was no scientific knowledge during this period that would have made it obvious the tremors were volcanic in origin. The people of Pompeii did not connect the earthquakes and tremors — including the major 62 AD earthquake — with volcanic activity from Vesuvius. What were actually warning signs were seen as normal geological events.','badge-erupt','Science')">
+      <div class="cause-num">03</div>
+      <div class="cause-text"><h4>Earthquakes not connected to volcanic activity</h4><p>Hurley: no scientific knowledge existed to link tremors to volcanic eruption; 62 AD earthquake seen as isolated event</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Fertile soil masked the danger','The same volcanic activity that made Vesuvius dangerous also made the surrounding soil extraordinarily fertile. The region\'s prosperity — its wine, grain, olive oil — was a direct product of volcanic geology. Residents had every reason to value the mountain and no cultural framework to fear it as a volcano.','badge-erupt','Economy')">
+      <div class="cause-num">04</div>
+      <div class="cause-text"><h4>Fertile soil masked the threat</h4><p>Volcanic soil created the region's prosperity — residents valued the mountain's productivity and had no reason to fear it</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SOCIETY PANEL ===== -->
+<div class="panel" id="panel-society">
+  <div class="section-head">
+    <h2>Society, economy &amp; daily life — click any element for detail</h2>
+  </div>
+
+  <!-- Social Structure -->
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">Social structure — four classes</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Elite Freeborn (Ingenui)','After Pompeii became a Roman colony c.80 BC, the elite comprised Roman veterans, wealthy landholders, business owners and traders. Families repeatedly appearing in funerary monuments, official inscriptions and programmata (political graffiti) indicate established dynasties. They alone could stand for election as magistrates and secure places on the ordo decurionum (town council). Evidence includes the House of the Faun, House of the Vettii, and funerary monuments outside the Nucerian Gate. Despite their exclusivity, Jongman argues that high infant mortality opened places for social climbers.','badge-political','Social Class')">
+      <div class="card-icon">👑</div>
+      <h4>Elite Freeborn (Ingenui)</h4>
+      <div class="card-role">Landholders, magistrates, councillors</div>
+      <p>Could vote, stand for office, own significant land and wealth. Senators from Rome owned holiday villas in Campania</p>
+    </div>
+    <div class="card" onclick="showModal('Non-Elite Freeborn','Not all freeborn people were part of the elite. The plebs media (middling sort) and plebs humilis (working poor) included shopkeepers, artisans, bakers, fullers and fishermen. Roman citizenship gave them the right to vote and legal protections, but not the wealth to hold office. Evidence for their lives comes from the numerous shops, bakeries (30 in Pompeii), thermopolia (fast-food counters), and graffiti on the walls of the Via dell\'Abbondanza.','badge-political','Social Class')">
+      <div class="card-icon">🏪</div>
+      <h4>Non-Elite Freeborn</h4>
+      <div class="card-role">Plebs media and plebs humilis</div>
+      <p>Shopkeepers, artisans, bakers, fishermen. Could vote but rarely held office. Evidence: shops, thermopolia, graffiti</p>
+    </div>
+    <div class="card" onclick="showModal('Freedmen and Freedwomen (Liberti)','Roman society allowed slaves to gain freedom through manumission — either freed by their owner or by purchasing their own freedom. Freedmen took the first two parts of their master\'s name and remained in a client-patron bond. Some became extraordinarily wealthy: the House of the Vettii is believed to have belonged to freedmen brothers. Garum manufacturer Aulus Umbricius Scaurus had freed slaves running his Pompeian business. Freedmen feature heavily in funerary monuments — Mouritsen suggests this reflects their desire to advertise their free status.','badge-political','Social Class')">
+      <div class="card-icon">🔓</div>
+      <h4>Freedmen (Liberti)</h4>
+      <div class="card-role">Ex-slaves, often wealthy entrepreneurs</div>
+      <p>Could not vote or hold state office but children were freeborn. Some became wealthier than freeborn citizens</p>
+    </div>
+    <div class="card" onclick="showModal('Slaves','Some estimates place the slave population of Pompeii and Herculaneum at around 40% of the total population, although the fragmentary nature of evidence makes this hard to confirm. Slaves were the property of their masters with no legal rights. Evidence includes the wooden tablets of banker Lucius Caecilius Lucundus, which list witnesses in strict social order — with slave status noted. A government notice on a Herculaneum water tower explicitly distinguishes punishments for free persons versus slaves for the same offence.','badge-political','Social Class')">
+      <div class="card-icon">⛓</div>
+      <h4>Slaves</h4>
+      <div class="card-role">~40% of estimated population</div>
+      <p>No legal rights; evidence from wooden tablets of Lucundus, wall inscriptions distinguishing slave/freeborn punishments</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">Economy — trade, industry and commerce</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Wine Production','The region around Vesuvius was famous for wine — Martial links Vesuvius with Bacchus, the god of wine. De Simone estimates that a quarter to a third of the plains around Vesuvius were devoted to wine production, producing four times the local demand for export. Jashemski\'s Forum excavations revealed an extensive vineyard, wine press and dolia (large fermentation vessels) near the amphitheatre. A famous fresco in the House of the Centenary depicts Bacchus with vines on Vesuvius — both a religious and economic image.','badge-political','Economy')">
+      <div class="card-icon">🍷</div>
+      <h4>Wine Production</h4>
+      <div class="card-role">Major export industry</div>
+      <p>Vesuviana wine famous across Mediterranean; de Simone: "four times local demand" produced for export</p>
+    </div>
+    <div class="card" onclick="showModal('Garum (Fish Sauce)','Garum was a fermented fish sauce central to Roman cuisine. Pliny the Elder wrote that "almost no other liquid except perfume fetched as high a price," naming Pompeii as known for high-quality garum. The best garum was made from red mullet, followed by tuna, mackerel and sardines. Aulus Umbricius Scaurus was Pompeii\'s most famous garum producer — marked vessels have been found throughout the city and a mosaic floor in his house advertises his product. Faecal analysis from Herculaneum\'s Cardo V sewer shows fish was consumed by all social classes.','badge-political','Economy')">
+      <div class="card-icon">🐟</div>
+      <h4>Garum Production</h4>
+      <div class="card-role">Luxury condiment; major export</div>
+      <p>Pliny: "almost no other liquid fetched as high a price." Scaurus' brand found throughout Pompeii</p>
+    </div>
+    <div class="card" onclick="showModal('Bakeries (Pistrina)','Pompeii had approximately 30 bakeries (pistrina), with a couple also found at Herculaneum. Bread was the staple food of the Roman diet. Many bakeries had their own millstones made of basalt lava for grinding grain. Evidence from the recent Great Pompeii Project includes a perfectly preserved thermopolium (fast-food counter) with food remnants still in the dolia embedded in the counter — providing direct evidence of the diet of ordinary Pompeians.','badge-political','Economy')">
+      <div class="card-icon">🍞</div>
+      <h4>Bakeries</h4>
+      <div class="card-role">~30 pistrina at Pompeii</div>
+      <p>Bread was the Roman staple; basalt lava millstones ground grain. A thermopolium was recently excavated with food intact</p>
+    </div>
+    <div class="card" onclick="showModal('Trade and the Forum','Trade was facilitated by Pompeii\'s geographic position near both sea and the Sarno River. The forum was the economic heart of the city — containing the macellum (market for meat and fish), the eumachia building (headquarters of the fullers), and the basilica (used for business contracts and legal disputes). The port, less than 1km from the centre, had 20 identified warehouses. Trade goods identified include olive oil, wine, pottery, textiles, and luxury items. The Boscoreale Treasure — over 100 pieces of silverware plus gold coins — indicates significant personal wealth.','badge-political','Economy')">
+      <div class="card-icon">🏛</div>
+      <h4>Trade &amp; The Forum</h4>
+      <div class="card-role">Commercial hub of both cities</div>
+      <p>Macellum, basilica, eumachia building; port with 20 warehouses; exported wine, oil, garum across Mediterranean</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">Local political life</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Duumviri (Senior Magistrates)','Two senior magistrates elected annually in March by Roman citizens. They served from 1 July and presided over court cases (including murders and civil cases up to 15,000 sesterces), administered the electoral rolls, controlled public money and carried out decrees. Every five years, duumviri held a census as duumviri quinquennales — a great honour. They were entitled to a staff of secretaries, messengers, a diviner, and lictors. The role was unpaid but expected lavish public spending: Aulus Claudius Flaccus (three-time duumvir) gifted the city 10,000 sesterces for games of Apollo.','badge-political','Politics')">
+      <div class="card-icon">⚖</div>
+      <h4>Duumviri</h4>
+      <div class="card-role">Two senior magistrates, elected annually</div>
+      <p>Presided over courts, controlled public finance, held census every five years. Required to fund public spectacles</p>
+    </div>
+    <div class="card" onclick="showModal('Aediles (Junior Magistrates)','Junior magistrates elected annually. Responsible for maintaining public buildings, roads, water supply and markets, and for organising public games. They also had four slave assistants who acted as police. Like the duumviri, they wore the purple toga and sat in special seats at games. They partially funded public entertainments in hope voters would remember their generosity and elect them to the higher office of duumvir.','badge-political','Politics')">
+      <div class="card-icon">🏗</div>
+      <h4>Aediles</h4>
+      <div class="card-role">Junior magistrates; public works</div>
+      <p>Maintained buildings, roads and markets; organised games; funded spectacles for political gain</p>
+    </div>
+    <div class="card" onclick="showModal('Comitium','An open-air colonnaded building in the forum where elections were held. Cuttings in the sidewalk on the north side are interpreted as a queuing system controlling voters entering to cast ballots. Political graffiti (programmata) on its walls support this interpretation. Some scholars suggest it also served as a courthouse, but its role in elections is most widely accepted. The building underwent significant modifications not long before the eruption — its function at the time of 79 AD is debated.','badge-political','Politics')">
+      <div class="card-icon">🗳</div>
+      <h4>Comitium</h4>
+      <div class="card-role">Voting hall in the forum</div>
+      <p>Open-air hall where citizens cast votes; programmata on walls; queuing system in pavement</p>
+    </div>
+    <div class="card" onclick="showModal('Decuriones (Town Council)','The ordo decurionum was Pompeii\'s town council — the local senate. Members had to meet property qualifications and be of good character. The quinquennales (five-year magistrates) could review and remove unworthy members. Despite the formal exclusivity of the elite, Jongman argues that demographic pressures meant social climbers could enter the council over time. Evidence for the council comes from official inscriptions recording public works, the Curia building, and numerous honorific statues and dedications.','badge-political','Politics')">
+      <div class="card-icon">📋</div>
+      <h4>Decuriones</h4>
+      <div class="card-role">Town council; local senate</div>
+      <p>Property-owning elite; met in the Curia; reviewed by quinquennales; evidence from inscriptions and honorific statues</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">Religion</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Household Gods (Lares and Penates)','Every Roman household had a lararium — a small shrine to the household gods. The lares were protective spirits of the family and its property, while the penates guarded the household\'s food supply. Pompeii was divided into districts, each with its own lares to protect it. The lararium fresco in the House of the Centenary (depicting Bacchus and a serpent on the slopes of Vesuvius) is one of the most famous examples. Lares figurines, altars and painted shrines are found throughout both cities.','badge-political','Religion')">
+      <div class="card-icon">🏠</div>
+      <h4>Household Gods — Lares &amp; Penates</h4>
+      <div class="card-role">Personal religion; every home</div>
+      <p>Lararium in every house; district lares also protected neighbourhoods; evidence from shrines, figurines, frescoes</p>
+    </div>
+    <div class="card" onclick="showModal('The Imperial Cult','Introduced from the time of Augustus (31 BC–14 AD). After his death, each emperor was worshipped as part of a state cult. At Pompeii, Augustus was worshipped at the Temple of the Genius Augustus (also called Temple of Vespasian) in the Forum. The marble altar inside shows the Augustales — 21 priests initially drawn from wealthy citizens — performing a bull sacrifice. Wealthy freedmen were also permitted to become Augustales, one of the few positions of influence open to them.','badge-political','Religion')">
+      <div class="card-icon">👑</div>
+      <h4>Imperial Cult</h4>
+      <div class="card-role">State religion; Augustales priests</div>
+      <p>Worship of emperors; Augustales priests (including wealthy freedmen); Temple of Genius Augustus in Forum</p>
+    </div>
+    <div class="card" onclick="showModal('Cult of Isis','A mystery cult from Egypt that became popular throughout the Roman Empire. At Pompeii, the Temple of Isis was one of the best-preserved temples found — rebuilt after the 62 AD earthquake by a freedman\'s son as a public benefaction, in exchange for which the young boy was granted a seat on the town council. The cult offered initiates a personal relationship with the goddess and the promise of afterlife. Its presence at Pompeii reflects the cultural diversity and openness to eastern religions characteristic of a busy commercial city.','badge-political','Religion')">
+      <div class="card-icon">🌙</div>
+      <h4>Cult of Isis</h4>
+      <div class="card-role">Egyptian mystery cult</div>
+      <p>Temple rebuilt post-62 AD earthquake by freedman's son; personal relationship with goddess; reflects cultural diversity</p>
+    </div>
+    <div class="card" onclick="showModal('Cult of Bacchus (Dionysus)','Bacchus — Roman name for the Greek god Dionysus — was the god of wine, agriculture and fertility. Historian Zarmati describes the cult as offering "an escape from worldly reality into mystic communion with the god." The cult was originally attended only by women but expanded to include men. The Roman Senate issued a decree in 186 BC suppressing Bacchic societies as a threat to public order, but the cult continued to flourish in Campania. The Villa of the Mysteries outside Pompeii features a famous frieze believed to show the initiation of a young girl into the cult.','badge-political','Religion')">
+      <div class="card-icon">🍇</div>
+      <h4>Cult of Bacchus</h4>
+      <div class="card-role">Wine god; mystery cult</div>
+      <p>Villa of the Mysteries frieze; Senate suppressed it 186 BC but it flourished in Campania; Zarmati: "escape from worldly reality"</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- EVERYDAY LIFE -->
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">Everyday life — housing, leisure, food &amp; dining, clothing, health, baths, water supply, sanitation</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Housing — The Roman House','The typical Pompeian townhouse was built facing inward around an atrium with a compluvium (opening in the roof) and impluvium (pool that collected rainwater). Beyond lay the tablinum (master\'s office/reception), triclinium (dining room) and peristyle garden. Facades were often austere — the interior revealed the owner\'s wealth. Vitruvius noted that a garden was essential for homes of people holding public office. The House of the Faun and House of the Vettii are the key examples. Herculaneum houses are generally better preserved, with upper floors intact, and show more varied building techniques including opus craticus (timber-framed construction).','badge-political','Everyday Life')">
+      <div class="card-icon">🏠</div>
+      <h4>Housing</h4>
+      <div class="card-role">Atrium, tablinum, peristyle plan</div>
+      <p>Inward-facing design; compluvium and impluvium; peristyle garden; austere facade concealing rich interiors; House of Faun; House of the Vettii</p>
+    </div>
+    <div class="card" onclick="showModal('Leisure — Gladiatorial Games and Theatre','Leisure was a central part of Roman life at both cities. The amphitheatre at Pompeii (c.70 BC) is the oldest surviving stone amphitheatre in the Roman world, seating approximately 20,000 spectators. Gladiatorial events were funded by magistrates as part of their public obligations — inscriptions record the gifts of Aulus Clodius Flaccus, who provided bullfighters, Greek and Roman boxers and wild beast hunts. The large palaestra (exercise ground) beside the amphitheatre was used for athletics, wrestling and swimming. Two theatres at Pompeii — the Large Theatre and the Odeon — hosted dramatic performances. A riot in the amphitheatre in 59 AD, recorded by Tacitus, led to a 10-year ban on gladiatorial games.','badge-political','Everyday Life')">
+      <div class="card-icon">🏟</div>
+      <h4>Leisure &amp; Entertainment</h4>
+      <div class="card-role">Amphitheatre, theatres, palaestra</div>
+      <p>Amphitheatre c.70 BC — oldest in Roman world; 20,000 seats; gladiatorial games funded by magistrates; 59 AD riot led to 10-year ban; two theatres; palaestra for athletics</p>
+    </div>
+    <div class="card" onclick="showModal('Baths — Social and Hygienic','Bathing was the most typically Roman of daily activities. Public baths (thermae) were important places for socialising, relaxing and conducting business. Pompeii had at least four bath complexes — the Stabian Baths, Forum Baths, Central Baths and Suburban Baths. Bathers moved through a series of rooms: the apodyterium (changing room), frigidarium (cold room), tepidarium (warm room) and caldarium (hot room). The hypocaust system circulated hot air under raised floors. Bathing was cheap and accessible to all social classes. The bath house was a democratic space — one of the few places where slaves, freedmen and citizens mixed freely, though men and women bathed separately or at different times.','badge-political','Everyday Life')">
+      <div class="card-icon">🛁</div>
+      <h4>Baths</h4>
+      <div class="card-role">Social hub; four complexes at Pompeii</div>
+      <p>Stabian, Forum, Central and Suburban Baths; apodyterium, frigidarium, tepidarium, caldarium; hypocaust heating; open to all classes; men and women separated</p>
+    </div>
+    <div class="card" onclick="showModal('Food and Dining','Evidence for food and diet is rich at Pompeii and Herculaneum. Approximately 158 thermopolia (fast-food counters with built-in dolia for hot food) have been identified in Pompeii alone — indicating that eating out was normal for ordinary residents who lacked cooking facilities. The 2019 Great Pompeii Project thermopolium was found with food remnants still in the dolia: duck, pig, fish, snails and beef. The triclinium (dining room) was the formal dining space of wealthier homes, where guests reclined on couches. Evidence from Herculaneum\'s Cardo V sewer shows fish, shellfish, eggs, olives, grains, fruit and nuts were consumed across social classes. Stable isotope analysis (2021) showed men ate 50% more seafood than women.','badge-political','Everyday Life')">
+      <div class="card-icon">🍽</div>
+      <h4>Food &amp; Dining</h4>
+      <div class="card-role">Thermopolia, triclinia, sewer evidence</div>
+      <p>158 thermopolia at Pompeii; 2019 thermopolium with food intact; Cardo V sewer shows diverse diet; isotope analysis: men ate 50% more seafood than women</p>
+    </div>
+    <div class="card" onclick="showModal('Water Supply','Water supply was a key feature of urban planning at Pompeii and Herculaneum. A main aqueduct fed a central castellum aquae (water tower) at the highest point of Pompeii, from which water flowed under pressure through lead pipes to public fountains, baths and private houses. There were approximately 40 public fountains in Pompeii — no resident was more than 80 metres from fresh water. Wealthy households had private pipes and running water; others collected rainwater in the impluvium cistern. Extensive repair work on the water system was underway at the time of the 79 AD eruption — evidence of ongoing damage from the 62 AD earthquake. At Herculaneum, an efficient system of underground sewers also handled waste disposal.','badge-political','Everyday Life')">
+      <div class="card-icon">💧</div>
+      <h4>Water Supply</h4>
+      <div class="card-role">Aqueduct, castellum aquae, 40 fountains</div>
+      <p>Main aqueduct fed central water tower; ~40 public fountains; no resident more than 80m from water; private pipes for wealthy; Herculaneum had underground sewers</p>
+    </div>
+    <div class="card" onclick="showModal('Clothing','Evidence for clothing comes from wall paintings, mosaics, statues and the impressions left in plaster casts. Roman citizens wore the toga — a formal garment that signified citizenship and rank. In practice, the toga was cumbersome and most people wore simpler tunics. Women wore the stola (a long dress) over a tunic, with a palla (shawl) for outdoor wear. Social status was indicated by the quality of fabric and the colour of decorative borders — purple was the most expensive and prestigious. The textile industry was one of Pompeii\'s major industries — the fullers (fullones) who processed and cleaned wool and cloth were a powerful guild, as evidenced by the Building of Eumachia which served as their headquarters.','badge-political','Everyday Life')">
+      <div class="card-icon">👘</div>
+      <h4>Clothing</h4>
+      <div class="card-role">Toga, stola, tunics; textile industry</div>
+      <p>Toga for citizens; stola and palla for women; status shown by fabric and colour; fullers a powerful guild; Building of Eumachia as their HQ; evidence from frescoes and plaster casts</p>
+    </div>
+    <div class="card" onclick="showModal('Health','Evidence for health at Pompeii and Herculaneum comes primarily from skeletal remains. Estelle Lazer\'s bioarchaeological study challenged earlier assumptions, finding that people lived far longer than previously thought — many into their 50s and beyond. Evidence of dental disease (caries, wear and loss) is common. Skeletal analysis has revealed healed fractures, arthritis and other conditions associated with physical labour. A 37-year-old male soldier found at Herculaneum with a military belt and sword showed significant upper body muscle development consistent with military training. Skulls from the Herculaneum beach showed morphological diversity — including individuals with origins in the Hellenistic East (Egyptians, Syrians, Jews). Health was likely better among the wealthy, who had access to better food and medical care.','badge-political','Everyday Life')">
+      <div class="card-icon">🦴</div>
+      <h4>Health</h4>
+      <div class="card-role">Skeletal evidence; Lazer's bioarchaeology</div>
+      <p>Lazer: people lived longer than assumed; dental disease common; military soldier identified at Herculaneum; diverse skull morphology shows cosmopolitan population; wealthy had better health outcomes</p>
+    </div>
+    <div class="card" onclick="showModal('Sanitation','Pompeii and Herculaneum differed significantly in their sanitation systems. Herculaneum had an efficient system of underground sewers running beneath the main streets — the Cardo V sewer has been excavated and analysed, revealing remarkable evidence of diet. Pompeii, being a larger and older city, relied more on individual household cesspits (which were emptied by cesspit cleaners, the stercorarii) and on the street drainage system. Stepping stones across streets allowed pedestrians to avoid waste accumulation. Many houses had latrines that were remarkably unhygienic by modern standards — often located adjacent to the kitchen, with excrement falling directly into vessels below. The sheer number of bars (thermopolia) suggests communal toilet facilities were important.','badge-political','Everyday Life')">
+      <div class="card-icon">🚽</div>
+      <h4>Sanitation</h4>
+      <div class="card-role">Herculaneum sewers vs Pompeii cesspits</div>
+      <p>Herculaneum: underground sewer system; Cardo V sewer excavated revealing diet evidence. Pompeii: household cesspits and stercorarii; stepping stones across streets; latrines often near kitchens</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- GREEK AND EGYPTIAN INFLUENCE -->
+  <h3 style="color:var(--gold);font-size:1rem;margin-bottom:12px">The influence of Greek and Egyptian cultures — art and architecture</h3>
+  <div class="card-grid">
+    <div class="card" onclick="showModal('Greek Architectural Influence','The Greek influence on architecture at Pompeii and Herculaneum is pervasive. The peristyle — a colonnaded garden surrounding an open courtyard — is a Greek architectural form that became central to the Roman house plan. Greek-style columns, entablatures and proportional systems shaped both public buildings and private homes. The Large Theatre at Pompeii was built in the Greek style with a semicircular orchestra and cavea cut into a natural hillside. The Doric Temple of Apollo near the Forum, one of the oldest buildings in Pompeii, reflects early Greek colonial influence in Campania. Greek building techniques were adapted and refined by Roman architects at both sites.','badge-political','Greek Influence')">
+      <div class="card-icon">🏛</div>
+      <h4>Greek Architecture</h4>
+      <div class="card-role">Peristyle, columns, theatres</div>
+      <p>Peristyle garden as a Greek form; Doric Temple of Apollo (one of Pompeii's oldest buildings); Large Theatre in Greek style; Greek proportional systems in public and private buildings</p>
+    </div>
+    <div class="card" onclick="showModal('The Alexander Mosaic — Greek Artistic Influence','The Alexander Mosaic in the House of the Faun is the supreme example of Greek artistic influence at Pompeii. Dating to approximately 100 BC and measuring 6m × 3m with approximately 2 million individual tesserae, it depicts Alexander the Great at the Battle of Issus against Darius III of Persia. The four-colour technique (white, yellow, red, black only), three-dimensional shading, and foreshortening are all characteristic of Greek painting — the mosaic is believed to be a copy of a lost Greek original painting. The House of the Faun itself, with its two atria and large double peristyle, reflects Greek taste for space and formal gardens.','badge-political','Greek Influence')">
+      <div class="card-icon">🎨</div>
+      <h4>Alexander Mosaic</h4>
+      <div class="card-role">Copy of lost Greek painting; House of Faun</div>
+      <p>6m × 3m; ~2 million tesserae; four-colour technique; copied from lost Greek original; 3D shading and foreshortening characteristic of Greek painting tradition</p>
+    </div>
+    <div class="card" onclick="showModal('Greek Mythological Themes in Art','Greek mythology provided the dominant subject matter for wall paintings, mosaics and sculptures throughout both cities. The Twelve Olympians, the labours of Hercules, the Trojan War, and stories from Ovid\'s Metamorphoses appear repeatedly. The fresco of Aeneas having an arrow removed from his thigh (from Virgil\'s Aeneid) in the House of the Tragic Poet shows how Greek myth was filtered through Roman literary tradition. The Fourth Style wall paintings — dominant in the years before 79 AD — used elaborate architectural fantasies derived from Greek theatrical scenery. Greek myth was not merely decorative — it signalled the cultural literacy and education of the homeowner.','badge-political','Greek Influence')">
+      <div class="card-icon">⚡</div>
+      <h4>Greek Mythological Themes</h4>
+      <div class="card-role">Dominant subject matter in art</div>
+      <p>Twelve Olympians, Hercules, Trojan War throughout both cities; Aeneas fresco (House of Tragic Poet); Fourth Style derived from Greek theatrical scenery; myth signalled cultural literacy</p>
+    </div>
+    <div class="card" onclick="showModal('Egyptian Influence — The Nilotic Mosaic','Egyptian cultural influence is most spectacularly represented by the Nilotic Mosaic in the House of the Faun — located just beyond the Alexander Mosaic in the same house. The scene depicts the flora and fauna of the Nile: a hippopotamus, crocodile, cobra, ducks, ibises and Indian lotus flowers. Egyptian subjects became fashionable in Rome and its colonies following Julius Caesar\'s relationship with Cleopatra and Mark Antony\'s eastern campaigns. The presence of both Greek and Egyptian mosaics in the same house demonstrates the cosmopolitan cultural aspirations of Pompeii\'s elite.','badge-political','Egyptian Influence')">
+      <div class="card-icon">🐊</div>
+      <h4>Egyptian Influence — Nilotic Mosaic</h4>
+      <div class="card-role">House of the Faun; Egyptian fauna of the Nile</div>
+      <p>Nilotic Mosaic: hippopotamus, crocodile, cobra, ibis, lotus; Egyptian subjects fashionable post-Caesar and Cleopatra; same house as Alexander Mosaic — dual Greek and Egyptian influence</p>
+    </div>
+    <div class="card" onclick="showModal('The Temple and Cult of Isis','The Temple of Isis at Pompeii is the most completely preserved Egyptian religious building from the ancient world. Rebuilt after the 62 AD earthquake at the expense of Numerius Popidius Ampliatus (through his six-year-old son Celsinus), it is a key example of the intersection of religion, social mobility and Egyptian cultural influence. The cult of Isis offered initiates a personal relationship with the goddess and the promise of a blessed afterlife — elements not available in official Roman state religion. Priests wore white linen (an Egyptian priestly tradition), shaved their heads, and performed daily rituals. The cult was one of the most internationally popular mystery religions of the 1st century AD.','badge-political','Egyptian Influence')">
+      <div class="card-icon">🌙</div>
+      <h4>Temple &amp; Cult of Isis</h4>
+      <div class="card-role">Best-preserved ancient Egyptian temple; rebuilt post-62 AD</div>
+      <p>Rebuilt by Popidius Ampliatus through 6-year-old son; white-robed priests; personal relationship with goddess; afterlife promise; one of the most popular mystery cults; Popidius inscription as key evidence</p>
+    </div>
+    <div class="card" onclick="showModal('Greek and Egyptian Influence on Language and Literature','Literary and epigraphic evidence at Pompeii reveals the deep penetration of Greek language and culture. Many graffiti are written in Greek, and Greek words appear throughout Latin inscriptions. Personal names on funerary monuments, the Lucundus tablets and the programmata show a mixture of Latin and Greek naming conventions — reflecting the cosmopolitan, multicultural nature of Pompeian society. Greek philosophical traditions (particularly Epicureanism and Stoicism) shaped the intellectual culture of the Roman elite who owned villas in Campania. The Herculaneum papyri scrolls, written predominantly in Greek, belong to the tradition of Epicurean philosophy — demonstrating that Greek intellectual life was a living, ongoing presence in Campania, not merely a historical influence.','badge-political','Greek Influence')">
+      <div class="card-icon">📜</div>
+      <h4>Language &amp; Literature</h4>
+      <div class="card-role">Greek in graffiti, inscriptions, scrolls</div>
+      <p>Greek graffiti at Pompeii; mixed Latin-Greek names; Epicurean and Stoic philosophy in elite culture; Herculaneum papyri predominantly Greek — Epicurean texts; Greek as the language of intellectual life in Campania</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EVIDENCE PANEL ===== -->
+<div class="panel" id="panel-evidence">
+  <div class="section-head">
+    <h2>Evidence — types, values and limitations</h2>
+    <p>Click any evidence type for HSC-focused analysis</p>
+  </div>
+
+  <div class="evidence-grid">
+    <div class="ev-card" onclick="showModal('Site Layout &amp; Streetscapes','Pompeii\'s grid plan (with major decumani and minor cardines) reflects Roman urban planning. The forum at the western end was connected to the amphitheatre and palaestra in the east by the Via dell\'Abbondanza. Streets had stepping stones (allowing pedestrians to cross above street-level waste), ruts from cart wheels, and raised pavements. At Herculaneum, the forum and government buildings remain largely unexcavated. Value: reveals city organisation, land use, social priorities. Limitation: only about two-thirds of Pompeii and a fraction of Herculaneum have been excavated.','badge-arch','Evidence')">
+      <div class="ev-icon">🗺</div>
+      <h4>Site Layout</h4>
+      <p>Grid plans, forums, streetscapes, stepping stones, cart ruts</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Wall Paintings (Frescoes)','Frescoes survive at both sites in extraordinary condition due to volcanic burial. Mau identified four artistic styles — the Fourth Style dominated in the years before 79 AD. Frescoes provide evidence of religion (the Bacchus lararium in House of Centenary), economy (the Fullery frieze in the Building of Eumachia), daily life (gladiatorial scenes in the House of Actius Anicetus), and social values. Value: direct, vivid visual evidence of Roman life. Limitation: may reflect the patron\'s aspirations rather than reality; artists used conventions and formulae.','badge-arch','Evidence')">
+      <div class="ev-icon">🎨</div>
+      <h4>Wall Paintings</h4>
+      <p>Four styles (Mau); religious, economic and daily life scenes</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Mosaics','Mosaics provide some of the most spectacular visual evidence at the sites. The Alexander Mosaic in the House of the Faun (6m × 3m, ~2 million tesserae) depicts Alexander the Great at the Battle of Issus — likely copied from a lost Greek painting. The Nilotic Mosaic in the same house features Egyptian fauna (hippopotamus, crocodile, ibis). Mosaic floors identified rooms by function and reflected the owner\'s wealth and cultural tastes. Value: durable, direct evidence of aesthetic values, wealth, and cultural influences. Limitation: expensive and limited to wealthier households.','badge-arch','Evidence')">
+      <div class="ev-icon">🔲</div>
+      <h4>Mosaics</h4>
+      <p>Alexander Mosaic; Nilotic Mosaic; floor decorations indicating room function</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Inscriptions (Epigraphy)','Official inscriptions (on buildings, monuments, altars) provide evidence of political life, public building programs and religious practice. The tomb outside the Nucerian Gate ("To Gaius Veranius Rufus...") shows freedwoman Veraina Clara\'s wealth. A government notice on a Herculaneum water tower explicitly distinguishes punishments for freeborn versus slaves. The Building of Eumachia carries a dedicatory inscription from the guild of fullers to Eumachia. Value: direct, unmediated evidence contemporary with the events. Limitation: inscriptions recorded what people wanted to be remembered — a form of self-promotion.','badge-arch','Evidence')">
+      <div class="ev-icon">📜</div>
+      <h4>Inscriptions</h4>
+      <p>Official inscriptions, dedicatory texts, tomb inscriptions, building programs</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Graffiti','Pompeii has over 11,000 surviving graffiti — one of the largest collections from the ancient world. Types include political programmata (campaign slogans supporting candidates), commercial advertisements, personal messages and entertainment announcements. Some are witty or obscene; many are mundane. The 2018 charcoal graffito in Regio V reading "the 16th day before the calends of November" has revised the eruption date. Value: unfiltered voice of ordinary people — rare in ancient history. Limitation: who wrote graffiti? Literacy rates, access and purpose all affect interpretation.','badge-arch','Evidence')">
+      <div class="ev-icon">✍</div>
+      <h4>Graffiti</h4>
+      <p>11,000+ examples; political programmata; personal messages; 2018 date graffito</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Human Remains &amp; Plaster Casts','Fiorelli\'s plaster cast technique transformed voids in hardened ash into detailed 3D representations of victims at the moment of death. Over 100 casts have been made at Pompeii. At Herculaneum, instead of casts, actual skeletons survive (because the intense heat and absence of ash cavities meant flesh disappeared immediately). Bioarchaeologist Estelle Lazer studied the Pompeii skeletons, challenging earlier claims about lifespan and health. Stable carbon and nitrogen isotope analysis of 340 Herculaneum bodies (2021) revealed gendered differences in diet. Ethical issues surround the display and study of remains.','badge-arch','Evidence')">
+      <div class="ev-icon">💀</div>
+      <h4>Human Remains</h4>
+      <p>1,214 Pompeii bodies; 349 Herculaneum; plaster casts; isotope analysis; ethical debates</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Ancient Written Sources','Key texts: Pliny the Younger\'s two letters to Tacitus (only eyewitness account of the eruption); Pliny the Elder\'s Naturalis Historia (economy, agriculture); Tacitus\' Annals (62 AD earthquake; Bay of Naples); Virgil and Martial on Campanian wine; Columella and Cato on agriculture; Livy on the Bacchic cult. Value: provide context and contemporary perspectives unavailable from archaeology alone. Limitation: written by elite, educated men with their own biases and purposes; gaps and omissions; copying errors over centuries.','badge-arch','Evidence')">
+      <div class="ev-icon">📚</div>
+      <h4>Written Sources</h4>
+      <p>Pliny, Tacitus, Virgil, Martial, Columella, Cato, Livy — use with awareness of bias</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Wooden Tablets (Tabulae Ceratae)','153 wooden tablets from the archive of banker Lucius Caecilius Lucundus provide a remarkable window into financial life and social hierarchy. Receipts record business transactions; witnesses are listed strictly in social order — providing direct evidence of how Romans ranked themselves. The tablets show the economic activities of a freedman\'s son who became a successful banker and property dealer. The House of the Bicentenary at Herculaneum also yielded wooden tablets associated with a legal case.','badge-arch','Evidence')">
+      <div class="ev-icon">📋</div>
+      <h4>Wooden Tablets</h4>
+      <p>Lucundus archive: 153 tablets; social ranking of witnesses; financial transactions</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Papyrus Scrolls (Villa of the Papyri)','The Villa of the Papyri at Herculaneum contained over 1,800 carbonised papyrus scrolls — the only surviving ancient library. Conventional X-ray could not read them. Recently, X-ray phase-contrast tomography (revealing ink thickness differences) has allowed partial reading of scrolls without unrolling them. The technique is still in development. The debate over whether to excavate further scrolls pits Sir Anthony Kenny (who argues the library \'staggers the imagination\') against Wallace-Hadrill (who argues conservation must come first).','badge-arch','Evidence')">
+      <div class="ev-icon">📰</div>
+      <h4>Papyrus Scrolls</h4>
+      <p>Villa of the Papyri; 1,800 carbonised scrolls; X-ray tomography enabling partial reading</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Plant &amp; Animal Remains','Wilhelmina Jashemski\'s pioneering work on the gardens of Pompeii used root cavities, pollen analysis and archaeobotany to reconstruct what was grown. She identified vine root cavities in the vineyard near the amphitheatre. Animal bones from Herculaneum\'s Cardo V sewer revealed dietary patterns across social classes — fish consumed by all. Casting techniques similar to those used on humans have been applied to tree roots and other organic matter, preserving the impression of wooden objects, furniture and food.','badge-arch','Evidence')">
+      <div class="ev-icon">🌿</div>
+      <h4>Plant &amp; Animal Remains</h4>
+      <p>Jashemski's garden archaeology; root cavities; sewer analysis; diet reconstruction</p>
+    </div>
+    <div class="ev-card" onclick="showModal('New Technologies','CT scanning of plaster casts has revealed bones, teeth and personal items inside without destroying the casts. GIS mapping and drone footage provide site-wide spatial analysis. 3D modelling (e.g. the Oplontis Project) creates accurate digital records of villa conditions. X-ray phase-contrast tomography reads carbonised scrolls. Stable isotope analysis reveals diet and geographic origins of individuals. Multispectral imaging reveals faded wall paintings. These technologies are transforming our understanding while minimising the need for destructive excavation.','badge-arch','Technology')">
+      <div class="ev-icon">💻</div>
+      <h4>New Technologies</h4>
+      <p>CT scanning, GIS, 3D modelling, X-ray tomography, isotope analysis, drone mapping</p>
+    </div>
+    <div class="ev-card" onclick="showModal('Housing — Private Buildings','Houses in Pompeii and Herculaneum were built facing inward around an atrium with a compluvium (opening in roof) and impluvium (pool). Beyond the atrium lay the tablinum (master\'s office/reception), triclinium (dining room) and peristyle garden. Wall decorations were in the Fourth Style in the years before 79 AD. The House of the Faun (two atria, Greek/Egyptian mosaics), House of the Vettii (believed to belong to freedmen), and Villa of the Mysteries (Bacchic frieze) are key examples. Herculaneum houses tend to be better preserved, including upper floors.','badge-arch','Evidence')">
+      <div class="ev-icon">🏠</div>
+      <h4>Houses</h4>
+      <p>Atrium-peristyle plan; House of Faun; House of Vettii; Villa of Mysteries; upper floors at Herculaneum</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-head"><h2>Representations over time</h2></div>
+  <div class="debate-grid">
+    <div class="debate-box">
+      <h4>18th Century — Grand Tour</h4>
+      <p>It became fashionable to paint dining rooms in "Pompeian red." Wealthy young men on the Grand Tour visited the sites. Skeletons were staged dramatically for visitors rather than left in situ. The day of Pompeii's destruction was portrayed as God's revenge on a pagan society.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>19th Century — Romanticism</h4>
+      <p>Pompeii inspired neo-classical and Romantic movements. Edward Bulwer-Lytton's 1834 novel <em>The Last Days of Pompeii</em> — based on skeletons he observed — had lasting influence. He kept a Pompeian skull on his desk for inspiration. The novel has been adapted repeatedly for film, opera and theatre (including the 2014 film <em>Pompeii</em>).</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>20th Century — Documentary Age</h4>
+      <p>Modern photography, documentaries and the internet provided wider, more accurate images. The BBC's 2003 documentary <em>Pompeii</em> reached global audiences. Robert Harris's 2003 novel <em>Pompeii</em> attempted to balance authenticity and accessibility. Harris noted the difficulty: "if it's accessible it's not authentic and if it's authentic it's not accessible."</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>21st Century — World Heritage</h4>
+      <p>UNESCO World Heritage listing and new media have driven renewed interest. The Great Pompeii Project's discoveries receive global coverage. Social media means individual finds — like the 2018 charcoal graffito or the ceremonial chariot — reach mass audiences instantly, shaping public understanding of the sites.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHANGING INTERPRETATIONS PANEL ===== -->
+<div class="panel" id="panel-interp">
+  <div class="section-head">
+    <h2>Changing Interpretations</h2>
+    <p>HSC syllabus dot-point: Impact of new research and technologies on our understanding of Pompeii and Herculaneum</p>
+  </div>
+
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">How interpretations have changed over time</h3>
+  <div class="debate-grid" style="margin-bottom:24px">
+    <div class="debate-box">
+      <h4>18th–19th Century — Treasure Hunting Era</h4>
+      <p>Early excavations under de Alcubierre (1748) were conducted as treasure-hunting operations for the royal Bourbon collection. Only objects considered suitable for royal display were removed; many others were destroyed in the process. No records were kept of find-spots or context. Interpretation was purely aesthetic — objects were viewed as art, not historical evidence. Johann Winckelmann's critical account was the first to demand more systematic approaches.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>Fiorelli's Revolution — 1860s</h4>
+      <p>Fiorelli transformed interpretation by treating the site scientifically. His plaster cast technique revealed the human cost of the eruption for the first time. His regional numbering system allowed objects to be located precisely within the city. His top-down, house-by-house excavation method preserved context. Later scholars, including Maiuri, built on his methods while sometimes compromising them under political and funding pressures.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>20th Century — Decline vs. Prosperity Debate</h4>
+      <p>Maiuri (1923–61) argued both cities were in economic and social decline before the eruption, damaged by the 62 AD earthquake. This interpretation shaped scholarship for decades. More recent economic historians, particularly Jongman, have challenged this view, arguing the cities showed signs of economic vitality rather than decline. The debate demonstrates how interpretations shift as new methods and evidence emerge.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>21st Century — Conservation and Context</h4>
+      <p>Since the 1980s, the emphasis has shifted from excavation and display to conservation, documentation and contextual analysis. New interpretations focus on the social history of ordinary people rather than elite culture alone. Lazer's bioarchaeological work challenged previous claims about health and lifespan. The 2018 graffito that revised the eruption date demonstrated that even the most basic facts remain open to reinterpretation.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Impact of new technologies on interpretation</h3>
+  <div class="card-grid" style="margin-bottom:24px">
+    <div class="card" onclick="showModal('CT Scanning of Plaster Casts','Conventional plaster casts show only the external shape of victims. CT (computed tomography) scanning allows researchers to see inside casts without destroying them — revealing bones, teeth, dental enamel, jewellery and personal items. From dental analysis, researchers can determine age at death, diet and geographic origins. This technology has transformed our understanding of who the victims were, challenging earlier assumptions based purely on external appearance or find location. For example, CT scanning revealed that a person previously identified as female was male, based on skeletal analysis.','badge-arch','Technology')">
+      <div class="card-icon">🔬</div>
+      <h4>CT Scanning</h4>
+      <div class="card-role">Plaster cast analysis without destruction</div>
+      <p>Reveals bones, teeth, jewellery inside casts; confirms age, sex and diet; challenges earlier misidentifications</p>
+    </div>
+    <div class="card" onclick="showModal('GIS Mapping and Drone Photography','Geographic Information Systems (GIS) allow archaeologists to create precise digital maps of the entire site, recording the location and condition of every structure. Drone photography provides aerial views that reveal patterns invisible from ground level — the layout of city blocks, the relationship between different zones of the city, and areas of damage or deterioration. Combined with 3D modelling, GIS has produced the most accurate record of Pompeii\'s topography ever made, allowing virtual reconstruction of areas that are too fragile to visit.','badge-arch','Technology')">
+      <div class="card-icon">🛸</div>
+      <h4>GIS &amp; Drone Mapping</h4>
+      <div class="card-role">Whole-site spatial analysis</div>
+      <p>Precise digital maps of every structure; aerial photography reveals patterns; virtual reconstruction of fragile areas</p>
+    </div>
+    <div class="card" onclick="showModal('3D Modelling — The Oplontis Project','The Oplontis Project created a highly accurate 3D digital model of the Villa of Oplontis (near Pompeii), recording the exact condition of every wall, fresco and floor surface. This provides a permanent digital record that captures the villa\'s condition at a specific moment in time — essential for tracking deterioration and planning conservation. Similar 3D modelling has been applied at both Pompeii and Herculaneum. Digital models allow scholars worldwide to study structures without visiting, reducing physical pressure on fragile sites.','badge-arch','Technology')">
+      <div class="card-icon">🖥</div>
+      <h4>3D Modelling</h4>
+      <div class="card-role">Digital record and virtual access</div>
+      <p>Oplontis Project model; permanent record of condition; scholars access sites digitally; tracks deterioration over time</p>
+    </div>
+    <div class="card" onclick="showModal('X-ray Phase-Contrast Tomography — The Herculaneum Scrolls','Conventional X-ray cannot distinguish the carbon-based ink used by ancient writers from the carbonised papyrus fibres of the Herculaneum scrolls — both appear the same colour. X-ray phase-contrast tomography detects tiny differences in the thickness of papyrus where ink was applied, creating a digital image that can be manipulated like a 3D model. This technique has allowed partial reading of scrolls without unrolling them — a process that would destroy them. The Vesuvius Challenge (2023) used AI to read full passages, winning a $700,000 prize and promising to unlock the library\'s full contents.','badge-arch','Technology')">
+      <div class="card-icon">📡</div>
+      <h4>X-ray Tomography</h4>
+      <div class="card-role">Reading carbonised scrolls without opening them</div>
+      <p>Herculaneum scrolls; detects ink thickness; AI reading (Vesuvius Challenge 2023); promises to unlock lost ancient library</p>
+    </div>
+    <div class="card" onclick="showModal('Stable Isotope Analysis','Stable carbon and nitrogen isotope analysis of bone collagen reveals what a person ate during their lifetime. A 2021 study of 340 bodies from Herculaneum\'s beach showed that men ate approximately 50% more seafood than women — implying gendered access to food resources. This challenges earlier assumptions about diet being uniform across the population and provides direct evidence of gender inequality in food access. The analysis also showed people at Herculaneum consumed more seafood overall than the modern Mediterranean diet — challenging the idea of the \'Mediterranean diet\' as continuous with antiquity.','badge-arch','Technology')">
+      <div class="card-icon">🧬</div>
+      <h4>Isotope Analysis</h4>
+      <div class="card-role">Diet, origins and gender from bone collagen</div>
+      <p>2021 study of 340 Herculaneum bodies; men ate 50% more seafood than women; reveals gendered food inequality; challenges diet assumptions</p>
+    </div>
+    <div class="card" onclick="showModal('Multispectral Imaging','Multispectral imaging uses different wavelengths of light (including infrared and ultraviolet) to reveal painted details that are invisible to the naked eye — faded pigments, underdrawings, and text covered by later layers. This technique has revealed previously illegible graffiti and faded fresco details without any physical contact with the surfaces. It has also been used to read carbonised papyri and examine wall surfaces in areas too fragile to enter. Interpretation of art and inscriptions has been significantly enhanced.','badge-arch','Technology')">
+      <div class="card-icon">🌈</div>
+      <h4>Multispectral Imaging</h4>
+      <div class="card-role">Revealing faded pigments and hidden text</div>
+      <p>UV and infrared light reveals faded frescoes, illegible graffiti and text beneath later layers — no physical contact required</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">New research and key recent finds</h3>
+  <div class="causes">
+    <div class="cause-item" onclick="showModal('The 2018 Charcoal Graffito — Revising the Eruption Date','During excavations in Regio V in 2018, archaeologists discovered a charcoal inscription reading: \"the 16th day before the calends of November — he smeared the new wall.\" This equates to 17 October in the modern calendar, pointing to a late October eruption — not 24 August as traditionally accepted. This is significant because: (1) it is the most direct epigraphic evidence for the eruption date; (2) it is supported by other evidence (autumn fruits, braziers, a coin minted after September); (3) it demonstrates how a single new find can overturn centuries of accepted scholarly consensus. This is a model example of how new evidence changes interpretations.','badge-turning','New Research')">
+      <div class="cause-num">01</div>
+      <div class="cause-text"><h4>2018 charcoal graffito revises eruption date</h4><p>Regio V inscription reads "16th day before calends of November" = 17 October; supported by autumn fruits, braziers and a post-September coin; overturns 1,700 years of the August date</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('New Victims in Regio V — The Great Pompeii Project','Recent excavations in the previously unexcavated Regio V area (begun 2017 under the Great Pompeii Project) have uncovered remarkable new finds including: two new victims found in a room (one believed to be a master, one a slave — based on their clothing and skeletal evidence); a ceremonial chariot with intact wooden and bronze fittings; a complete fast-food thermopolium with food remnants preserved in the counter dolia; and a room of wooden furniture preserved in carbonised form. Each new find has refined our understanding of daily life, social relationships and the eruption\'s timeline.','badge-arch','New Research')">
+      <div class="cause-num">02</div>
+      <div class="cause-text"><h4>Regio V excavations — new victims, chariot, thermopolium</h4><p>Great Pompeii Project (2017–): two new victims (possible master and slave); ceremonial chariot; intact thermopolium with food; carbonised furniture — each refines our understanding of 79 AD</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('DNA Analysis — Geographic Origins of Victims','Recent genetic analysis of skeletal remains from Pompeii and Herculaneum has revealed that the population was far more diverse than previously assumed. DNA evidence shows individuals with North African, Middle Eastern and eastern Mediterranean origins — consistent with the literary evidence for Pompeii as a cosmopolitan commercial city. Skulls from the beach at Herculaneum showed a wide variety of morphological types, suggesting the presence of Egyptians, Syrians, Jews and others from the wider Roman Empire. This challenges earlier assumptions of a primarily Italian population.','badge-arch','New Research')">
+      <div class="cause-num">03</div>
+      <div class="cause-text"><h4>DNA analysis reveals diverse, cosmopolitan population</h4><p>Genetic evidence of North African, Middle Eastern and eastern Mediterranean origins; consistent with literary sources; challenges assumption of primarily Italian population</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('The Vesuvius Challenge — AI Reads Ancient Scrolls (2023)','The Vesuvius Challenge offered prize money to teams who could use AI and machine learning to read the carbonised Herculaneum scrolls. In 2023, a winning team used AI trained on X-ray tomography scans to read a passage of several hundred words from a previously unread scroll. The text discussed the sources of pleasure in Epicurean philosophy. This breakthrough promises to unlock the content of 1,800 scrolls — potentially the largest discovery of lost ancient texts since the Renaissance. It represents a dramatic change in what we believe is possible for interpreting damaged ancient sources.','badge-turning','New Research')">
+      <div class="cause-num">04</div>
+      <div class="cause-text"><h4>AI reads Herculaneum scrolls — Vesuvius Challenge 2023</h4><p>AI trained on X-ray scans reads passages from carbonised scrolls; Epicurean text recovered; promises to unlock 1,800 scrolls; largest potential ancient text discovery in centuries</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Lazer\'s Bioarchaeology — Challenging Earlier Health Claims','Estelle Lazer\'s systematic study of skeletal remains challenged the long-held view that residents of Pompeii and Herculaneum lived short, unhealthy lives. Her analysis showed that many individuals lived into their 50s, 60s and beyond — far longer than earlier estimates. Earlier interpretations were based on incomplete skeletal data and faulty methodology. Lazer\'s work also challenged the practice of assigning sex, age and social status to victims without proper skeletal analysis — some individuals had been misidentified for decades. Her work is a model of how improved methodology changes interpretation.','badge-arch','New Research')">
+      <div class="cause-num">05</div>
+      <div class="cause-text"><h4>Lazer's bioarchaeology — longer lives, better health than assumed</h4><p>Systematic skeletal analysis shows many lived into their 50s–60s+; challenges short lifespan assumptions; corrects earlier misidentifications; demonstrates how methodology shapes interpretation</p></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Representations of Pompeii and Herculaneum over time</h3>
+  <div class="debate-grid">
+    <div class="debate-box">
+      <h4>17th–18th Century — Grand Tour and Neoclassicism</h4>
+      <p>The sites were first represented through the lens of neoclassical aesthetics. Objects were collected, displayed and painted as examples of Greco-Roman artistic achievement. Pompeian decorative styles — Pompeian red walls, geometric floor mosaics — became fashionable across Europe. Visitors on the Grand Tour sought authentic experiences of antiquity, and Pompeii provided them. Skeletons were arranged dramatically for visitors rather than left in situ. The day of destruction was often depicted as divine punishment for Pompeii's pagan vices.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>19th Century — Romanticism and Popular Culture</h4>
+      <p>Edward Bulwer-Lytton's 1834 novel <em>The Last Days of Pompeii</em> established the enduring popular image of the disaster. He based characters on skeletons he observed, gave them names and relationships, and climaxed the story with the eruption. The novel was adapted repeatedly for opera, theatre, film and television. It established Pompeii as a story about individual human tragedy rather than historical archaeology — a framing that still dominates popular culture (including the 2014 film). Bulwer-Lytton kept a Pompeian skull on his desk as inspiration.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>20th Century — Scientific and Documentary</h4>
+      <p>Photography, film and television transformed how Pompeii was represented. The BBC's 2003 documentary used new scientific evidence and realistic reconstruction to present a more accurate picture than the Romantic tradition. Robert Harris's 2003 novel attempted to balance authenticity with accessibility. Modern photographic records, documentaries and the internet began providing far wider and more accurate images of the sites — though they could not fully escape the dramatic Bulwer-Lytton tradition of focusing on the final moments.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>21st Century — Digital and Social Media</h4>
+      <p>UNESCO World Heritage listing and social media have democratised access to images and information about the sites. Individual discoveries — the 2018 date graffito, the Regio V ceremonial chariot, the thermopolium — reach global audiences within hours via social media. Documentaries can now use drone footage, CT scanning and digital reconstruction to provide perspectives previously impossible. However, social media also amplifies dramatic misrepresentations — and Bulwer-Lytton's tradition of storytelling persists in the 2014 blockbuster film and numerous television series.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONSERVATION PANEL ===== -->
+<div class="panel" id="panel-conservation">
+  <div class="section-head">
+    <h2>Issues of Conservation and Reconstruction</h2>
+    <p>HSC syllabus dot-point: Italian and international contributions and responsibilities</p>
+  </div>
+
+  <h3 style="color:var(--accent);font-size:1rem;margin-bottom:12px">Major conservation challenges (2011 UNESCO Report)</h3>
+  <div class="cons-grid">
+    <div class="cons-item warning">
+      <div class="cons-icon">💧</div>
+      <h4>Water Damage</h4>
+      <p>Lack of efficient drainage allows water infiltration that degrades both building structures and decorative elements (frescoes, mosaics). Identified as the primary structural threat by UNESCO/ICOMOS 2011.</p>
+    </div>
+    <div class="cons-item warning">
+      <div class="cons-icon">🌿</div>
+      <h4>Plant Growth</h4>
+      <p>Rampant ivy and other vegetation destabilise walls and damage structures. UNESCO specifically cited ivy as a concern at Pompeii. Removal is labour-intensive and ongoing.</p>
+    </div>
+    <div class="cons-item warning">
+      <div class="cons-icon">🐦</div>
+      <h4>Animal Activity</h4>
+      <p>Pigeon droppings (acidic), vermin, stray cats and dogs all contribute to ongoing degradation. Animals nest in wall cavities, dislodging masonry.</p>
+    </div>
+    <div class="cons-item warning">
+      <div class="cons-icon">👷</div>
+      <h4>Lack of Qualified Staff</h4>
+      <p>Of ~1,000 staff at the Superintendent's office in 2011, only 12 were archaeologists and 3 were architects. The rest were custodial and administrative. Restoration was outsourced without quality assessment.</p>
+    </div>
+    <div class="cons-item warning">
+      <div class="cons-icon">🏚</div>
+      <h4>Inappropriate Restoration</h4>
+      <p>Use of inappropriate materials and methods in past restoration work — including non-reversible concrete fills — has sometimes made buildings more rather than less vulnerable. The 2010 collapse of the House of the Gladiators exposed these failures.</p>
+    </div>
+    <div class="cons-item warning">
+      <div class="cons-icon">🔒</div>
+      <h4>Site Security</h4>
+      <p>Poor security has allowed looting, vandalism, and graffiti on ancient walls. Large areas are closed due to a lack of custodians, concentrating visitor impact on a small number of accessible sites.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--teal);font-size:1rem;margin-bottom:12px">International contributions</h3>
+  <div class="debate-grid">
+    <div class="debate-box teal">
+      <h4>The Great Pompeii Project (2012–)</h4>
+      <p>Launched after the 2010 collapse of the House of the Gladiators. Brought significant new investment and international attention. New finds include a fast-food thermopolium with food intact, a ceremonial chariot, new victims in Regio V, and the October graffito revising the eruption date. A conservation-first approach guides all work.</p>
+    </div>
+    <div class="debate-box blue">
+      <h4>Packard Humanities Institute</h4>
+      <p>American philanthropic organisation that has funded and led conservation work at Herculaneum. Wallace-Hadrill describes "a decade's heroic work" that has addressed many conservation problems at the main Herculaneum site, including water drainage, structural stabilisation and documentation of the existing site.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>European Community Funding</h4>
+      <p>In 1984, following the 1980 earthquake, the European Community contributed 36 billion lire (approximately AUD$70 million) for restoration of Pompeii. French archaeologist Jean-Pierre Adam was employed in 1983 to evaluate restoration methods. This marked a shift from excavation to conservation as the primary goal.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>UNESCO World Heritage Status</h4>
+      <p>World Heritage listing brought international scrutiny as well as prestige. The 2011 UNESCO/ICOMOS report publicly documented conservation failures at Pompeii and Herculaneum, applying pressure that accelerated the establishment of the Great Pompeii Project. Listing both protects and publicises the sites.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== HISTORIANS PANEL ===== -->
+<div class="panel" id="panel-historians">
+  <div class="section-head">
+    <h2>Historians &amp; sources — click any for full HSC use guide</h2>
+  </div>
+
+  <h3 style="color:var(--muted);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Primary Sources</h3>
+  <div class="hist-list">
+
+    <div class="hist-item" onclick="showModal('Pliny the Younger — Primary Source','HSC use: The only eyewitness account of the eruption. Use for: the eruption sequence, the death of Pliny the Elder, the behaviour of people fleeing, the physical appearance of the volcanic column. Reliability concerns: Pliny does not record the year; does not mention the initial large detonation that must have preceded the eruption; his purpose was to celebrate his uncle\'s bravery rather than accurately document events; he was 32km away at Misenum and did not witness the eruption at close quarters; he relies on memory of a traumatic event. Best used alongside Sigurdsson\'s scientific reconstruction and cross-referenced with Tacitus.','primary','Primary Source')">
+      <div><span class="hist-name">Pliny the Younger</span><span class="hist-type primary">Primary</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Letters to Tacitus, c.AD 104</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"A cloud was rising from a mountain — at such a distance we couldn't tell which, but afterwards learned that it was Vesuvius. Its general appearance can best be expressed as being like an umbrella pine, for it shot up to a great height in the form of a very tall trunk, which spread itself out at the top." <em>(Letter I — describing the eruption column)</em></div>
+        <div class="hist-quote">"It was now day everywhere else, but there a deeper darkness prevailed than in the thickest night; which, however, was in some degree dissipated by torches and different lights... my uncle laid himself down on a sail cloth, which was spread for him, and called twice for some cold water, which he drank, and then the flames and a strong smell of sulphur dispersed the rest of the party — he raised himself up with the assistance of two of his servants and instantly fell down dead." <em>(Letter I — on the death of Pliny the Elder)</em></div>
+        <div class="hist-quote">"They went out then, having pillows tied upon their heads with napkins; and this was their whole defence against the storm of stones that fell round them... Many besought the aid of the gods, but still more imagined there were no gods left, and that the universe was plunged into eternal darkness." <em>(Letter II — on evacuation from Misenum)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: eruption sequence; death of Pliny the Elder; evacuation behaviour; physical description of a Plinian eruption. Caution: written to celebrate his uncle (not to record history); 32km from the eruption; no year recorded; likely gaps in memory</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Tacitus — Primary Source','HSC use: Corroborates key facts from Pliny, provides context for the 62 AD earthquake and the atmosphere of Campania. His Annals record that the earthquake \'largely demolished the populous Campanian town of Pompeii\'. His description of the Bay of Naples provides atmospheric context. More methodologically rigorous than many ancient historians — he interrogated sources and acknowledged uncertainty. He does not provide an eyewitness account of 79 AD but is a reliable source for earlier events. Use cross-referenced with Pliny for the eruption.','primary','Primary Source')">
+      <div><span class="hist-name">Tacitus</span><span class="hist-type primary">Primary</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Annals, c.AD 117</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"An earthquake largely demolished the populous Campanian town of Pompeii." <em>(Annals — on the 62 AD earthquake)</em></div>
+        <div class="hist-quote">"A most beautiful bay — beautiful that is, before the eruption of Mt Vesuvius changed the landscape forever." <em>(Annals — on the Bay of Naples)</em></div>
+        <div class="hist-quote">"This was during the consulship of Regulus and Verginius, when Pompeii, a populous town in Campania, was devastated and largely demolished by an earthquake." <em>(Annals — fuller account of the 62 AD earthquake and its regional impact)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: 62 AD earthquake and its impact; Bay of Naples description; corroborating Pliny's account. More rigorous methodology than most ancient sources; use as a cross-reference</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Pliny the Elder — Primary Source','HSC use: The Elder\'s Naturalis Historia provides extensive information about the economy and natural resources of Campania. His description of garum as fetching prices rivalling perfume is essential for economy questions. He names Pompeii as a town known for high-quality garum. He provides detail on Campanian wine, agricultural products and the region\'s fertility. He died at Stabiae during his rescue mission — the ultimate irony of a man who documented the natural world being killed by natural forces. Use his work for economy, geography and natural resources. Note his death gives credibility to the danger of the eruption.','primary','Primary Source')">
+      <div><span class="hist-name">Pliny the Elder</span><span class="hist-type primary">Primary</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Naturalis Historia, c.AD 77</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"Almost no fluid except for perfume begins to fetch a greater price, bringing fame to the countries of origin. There is no known garum production workshop within the walls of Pompeii." <em>(Naturalis Historia — on garum and its economic value)</em></div>
+        <div class="hist-quote">"At this place Lucky Campania begins, and in this valley begins the vine-covered hills, whose alcohol-filled juice is celebrated throughout the world." <em>(Naturalis Historia — on the agricultural wealth of Campania)</em></div>
+        <div class="hist-quote">"Furthermore, there is another type of choice fluid, called garum, produced from the guts of fish and anything else which would have been discarded, steeped in salt — in other words it is the fermentation of decaying matter." <em>(Naturalis Historia — on the production process of garum)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: economy (garum, wine, olive oil, agriculture); natural resources of Campania; geography. His death at Stabiae confirms the danger of the eruption and adds credibility to Pliny the Younger's account</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Lucius Caecilius Lucundus Archive — Primary Source','HSC use: 153 wooden tablets (tabulae ceratae) recording business transactions of Pompeian banker Lucundus (the son of a freed slave). Witnesses are listed in strict social order across all 153 tablets — providing direct, unmediated evidence of how Romans ranked social classes in everyday life. Reveals economic activities including property auctions, rental receipts and business dealings. Shows the operation of the patron-client system. Key evidence for social structure and economy questions. Particularly useful for demonstrating the role of freedmen in Pompeian commerce.','primary','Primary Source')">
+      <div><span class="hist-name">Lucundus Tablets (archive)</span><span class="hist-type primary">Primary</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">153 wax tablets, Pompeii</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"To Gaius Caecilius Lucundus, son of Lucius... receipt of payment from Umbricia Januaria of 11,039 sesterces as the price of an auction held on her behalf." <em>(Tablet — recording a business transaction, witnesses listed by social rank)</em></div>
+        <div class="hist-quote">Witnesses listed on each tablet in strict social order: freeborn citizens first, then freedmen, then slaves — demonstrating that social hierarchy was formally observed in everyday commercial life. <em>(Archive structure — key evidence for social class)</em></div>
+        <div class="hist-quote">"Lucius Caecilius Lucundus, son of a freed slave, became a successful banker and property dealer — his archive of 153 tablets reveals the economic activities of a man who climbed from freedman's son to leading Pompeian businessman." <em>(Scholarly summary of the archive's significance)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: social hierarchy; commercial life; role of freedmen; patron-client relations; economy. Value: direct, contemporary evidence. Limitation: only records one man's transactions; cannot be generalised</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Graffiti &amp; Inscriptions — Primary Sources','HSC use: Over 11,000 graffiti survive at Pompeii — one of the largest collections of ancient graffiti in the world. Types range from political programmata (election slogans) to commercial advertisements, personal messages and entertainment notices. Official inscriptions on buildings record public benefactions, building programs and dedications. The 2018 charcoal graffito in Regio V revised the eruption date. The inscription on the Temple of Isis records how a child rebuilt it after the 62 AD earthquake. Value: unfiltered voices of ordinary people. Limitation: literacy rates, authorship and purpose all affect interpretation.','primary','Primary Source')">
+      <div><span class="hist-name">Graffiti &amp; Inscriptions (Pompeii &amp; Herculaneum)</span><span class="hist-type primary">Primary</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"Numerius Popidius Celsinus, son of Numerius, rebuilt from its foundations the Temple of Isis which had collapsed in the earthquake. Because of his generosity the decurions admitted him to their order free of charge although he was only six years old." <em>(Temple of Isis inscription — evidence for social mobility, religion and post-62 AD rebuilding)</em></div>
+        <div class="hist-quote">"The 16th day before the calends of November, he smeared the new wall." <em>(Charcoal graffito, Regio V, 2018 — revises the eruption date to late October 79 AD)</em></div>
+        <div class="hist-quote">"I ask you to elect Marcus Cerrinius Vatia to the aedileship. All the late drinkers support him." <em>(Political programmata — evidence of how elections were conducted; graffiti reveals ordinary citizens' voices)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: local politics (programmata); religion (temple inscriptions); social mobility (Popidius inscription); eruption date debate (2018 graffito); economy (commercial notices). Value: direct, unfiltered. Limitation: authorship and purpose vary greatly</div>
+    </div>
+
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:var(--muted);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">Modern Scholars</h3>
+  <div class="hist-list">
+
+    <div class="hist-item" onclick="showModal('Mary Beard — Modern Scholar','HSC use: Beard\'s The Fires of Vesuvius (2008) challenges many popular assumptions about Pompeii. Key arguments: (1) most Pompeians survived and fled — names associated with Pompeii appear in towns predominantly to the north; (2) early post-eruption looting is evidenced by tunnels and wall messages like \'house tunnelled\' — some skeletons found by later excavators may be looters, not eruption victims; (3) some buildings were found unlocked and stripped, suggesting owners returned; (4) she controversially argues that it \'doesn\'t really matter if tourists damage Pompeii\' — it is not a pristine time-capsule but an active, evolving site. Use for: survivor numbers, post-eruption activity, tourism ethics, challenging popular narratives.','modern','Modern Scholar')">
+      <div><span class="hist-name">Mary Beard</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">The Fires of Vesuvius (2008)</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"It was a very small portion of the population of Pompeii that died." <em>(On survival numbers — challenges the popular image of mass death)</em></div>
+        <div class="hist-quote">"House tunnelled — perhaps a message to other members of their gang, the ancient equivalent of 'we have already been here.'" <em>(On post-eruption looting — raises questions about the identity of some skeletons)</em></div>
+        <div class="hist-quote">"It doesn't really matter if tourists damage Pompeii." <em>(On tourism — her most controversial argument; challenges conservationist assumptions about the site's pristine status)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: survival rates; post-eruption looting; tourism debate; challenging popular representations of Pompeii. Useful for evaluation questions requiring alternative perspectives</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Estelle Lazer — Modern Scholar','HSC use: Lazer\'s Resurrecting Pompeii (2009) challenges earlier interpretations of health, life expectancy and the ethics of displaying human remains. Key arguments: (1) people at the sites lived longer than previously thought — challenging assumptions about poor health in the ancient world; (2) assigning names, occupations and relationships to victims is disrespectful and unreliable — \'no one has their name engraved on their bones\'; (3) campaigns to allow remains to \'speak for themselves\' without embellishment. Use for: ethical issues with human remains; bioarchaeological methodology; health and life expectancy; contrasting with earlier scholars.','modern','Modern Scholar')">
+      <div><span class="hist-name">Estelle Lazer</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Resurrecting Pompeii (2009)</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"Assigning names to any of Vesuvius' victims is very doubtful... the bones of Pompeii and Herculaneum should be allowed to speak for themselves." <em>(On ethics of naming human remains)</em></div>
+        <div class="hist-quote">"People in Pompeii and Herculaneum lived far longer lives than previously thought." <em>(On life expectancy — challenges earlier assumptions about poor Roman health)</em></div>
+        <div class="hist-quote">"The actions and occupations of most of the victims is open to a range of interpretations... it is disrespectful to restore dignity to these people by assigning them identities that are not verified by the evidence." <em>(On the ethics of interpretive display of remains)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: ethical issues (display and study of human remains); life expectancy; bioarchaeological methodology. Contrasts with Fiorelli's tradition of naming/staging victims and popular documentary approaches</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Haraldur Sigurdsson — Modern Scholar','HSC use: Icelandic vulcanologist whose work in the early 1980s provided the definitive scientific reconstruction of the 79 AD eruption. Methodology: examined grain sizes in volcanic strata covering both cities; compared findings with the 1980 Mt St Helens eruption; cross-referenced with Pliny the Younger\'s account and the position and condition of human remains. Most scholars accept his six-phase sequence. Identified pyroclastic density currents (PDCs) at 330–500°C as the primary cause of death at Herculaneum. Use for: eruption phases; scientific methodology; comparing literary and scientific evidence.','modern','Modern Scholar')">
+      <div><span class="hist-name">Haraldur Sigurdsson</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Vulcanologist, 1980s fieldwork</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">Reconstructed the eruption by "examining the grain sizes in the strata of volcanic material that covered Pompeii and Herculaneum" then comparing with the 1980 Mt St Helens eruption and Pliny's letters. <em>(Methodology — cross-referencing scientific and literary evidence)</em></div>
+        <div class="hist-quote">"The first of a series of pyroclastic density currents, between 330°C and 500°C... covered Herculaneum with a 1.5-metre layer of material." <em>(On the PDC phases — primary cause of death at Herculaneum)</em></div>
+        <div class="hist-quote">"A fourth PDC hit Pompeii, and this was powerful with winds travelling at approximately 300 km/h and carrying dense volcanic material." <em>(On the destructive later phases — explaining the boxer posture of victims)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: eruption phases and sequence; scientific methodology; comparing literary (Pliny) and scientific evidence; cause of death at each city. Most scholars are in consensus with his reconstruction</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Andrew Wallace-Hadrill — Modern Scholar','HSC use: Director of the Herculaneum Conservation Project; leading voice on conservation ethics and the tension between excavation and preservation. Described Maiuri as \'a towering figure...endlessly energetic, learned and imaginative\' — useful for evaluating the excavation era. His opposition to new excavation at the Villa of the Papyri is a key position in the ethical debates section. Use for: conservation vs. excavation; Herculaneum Conservation Project; critique of Maiuri; Villa of Papyri debate.','modern','Modern Scholar')">
+      <div><span class="hist-name">Andrew Wallace-Hadrill</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Herculaneum Conservation Project</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"The logic that drives any modern excavation must be preservation, not the pursuit of a dream." <em>(On the Villa of Papyri debate — conservation must precede new excavation)</em></div>
+        <div class="hist-quote">"Maiuri was a towering figure...endlessly energetic, learned and imaginative." <em>(On Amedeo Maiuri — acknowledging his contributions while critiquing his methods)</em></div>
+        <div class="hist-quote">"Is there an imminent threat to the site of the villa? Volcanic eruption can scarcely do more damage to what lies buried: it is the parts exposed that are most at risk." <em>(On the Villa of Papyri — arguing the exposed trench is more dangerous than leaving it buried)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: conservation vs. excavation debate; Villa of Papyri; Herculaneum Conservation Project; critique of Maiuri. Key voice in the ethical debates section of the syllabus</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Willem Jongman — Modern Scholar','HSC use: Economic historian who challenges Maiuri\'s thesis that Pompeii was in economic decline before 79 AD. Argues that high rates of infant mortality and low life expectancy among all classes created pathways for upward social mobility — positions on the town council could only be maintained by an influx of social climbers. This \'intergenerational succession\' argument is key for social structure questions. Note that Jongman\'s claims about low life expectancy contrast with Lazer\'s finding of longer lifespans — this contradiction is itself useful for HSC analysis.','modern','Modern Scholar')">
+      <div><span class="hist-name">Willem Jongman</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Economic historian</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"The continued existence of a town council could only be maintained by an influx of social climbers." <em>(On social mobility — challenges the idea that the elite was closed and static)</em></div>
+        <div class="hist-quote">"Upward social mobility was a by-product of high rates of infant mortality and low life expectancy among all classes." <em>(On the mechanism of social mobility — demographic pressure created openings)</em></div>
+        <div class="hist-quote">"This insecure 'intergenerational succession' opened up places for people outside the elite to join their ranks." <em>(On why social climbing was possible — death and demographic turnover drove inclusion)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: social structure and mobility; challenge to Maiuri's decline thesis; economic history. Note: his low life-expectancy claim contrasts with Lazer — a useful critical tension for extended responses</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Pamela Bradley — Modern Scholar','HSC use: Bradley provides detailed analysis of religious life, particularly the mystery cults. Her key argument is that the Bacchic cult appealed to the marginalised — women, slaves, foreigners, outlaws — because within the cult all were regarded as equal. This challenges the idea that Roman religion was purely a tool of state control and elite power. Useful paired with Zarmati for religion questions. Also useful for gender and social margins.','modern','Modern Scholar')">
+      <div><span class="hist-name">Pamela Bradley</span><span class="hist-type modern">Modern</span><span style="font-size:0.75rem;color:var(--muted);margin-left:8px">Ancient Rome: Using Evidence</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"Because the cult was a celebration of everything that was outside societal restraints...all were regarded as equal within the cult." <em>(On the Bacchic cult — its appeal to social outsiders)</em></div>
+        <div class="hist-quote">"The intoxicating effect of wine and trance-inducing techniques, such as ecstatic dancing to pipes, drums and with clashing cymbals, were believed to liberate the initiate to return to a more natural state of being." <em>(On the ritual practices of the Bacchic cult)</em></div>
+        <div class="hist-quote">"It was not surprising that many of its original devotees were women and others on the margins of society: slaves, foreigners, even outlaws, for all were regarded as equal within the cult." <em>(On who participated in the cult — gender and social class)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: religion — mystery cults (Bacchus); social structure and margins; women's roles in religion. Pair with Zarmati for fuller analysis of mystery cult appeal</div>
+    </div>
+
+    <div class="hist-item" onclick="showModal('Zarmati — Modern Scholar','HSC use: Zarmati describes the psychological and spiritual appeal of mystery cults. The key quote — an "escape from worldly reality" — captures the personal, emotional dimension of mystery religion that official state religion lacked. Useful paired with Bradley for any religion question on mystery cults. Also useful for contrasting personal religion (mystery cults) with public state religion (imperial cult, Capitoline Triad).','modern','Modern Scholar')">
+      <div><span class="hist-name">Zarmati</span><span class="hist-type modern">Modern</span></div>
+      <div class="hist-quotes">
+        <div class="hist-quote">"An escape from worldly reality into mystic communion with the god and the promise of a blessed life after death." <em>(On the appeal of the Bacchic cult — personal spiritual dimension)</em></div>
+        <div class="hist-quote">"The cult offered initiates a deeply personal experience of the divine — something official Roman religion, with its civic and political functions, rarely provided." <em>(On why mystery cults flourished alongside state religion)</em></div>
+        <div class="hist-quote">"Bacchus identified in wall paintings with vine leaves in his hair and carrying a staff tipped with a pinecone, was often accompanied by satyrs — creatures half-man, half-beast." <em>(On the iconography of Bacchus in Pompeian art — connecting religious belief to visual evidence)</em></div>
+      </div>
+      <div class="hist-use">✏ HSC use: mystery cults (Bacchus, Isis); personal vs. state religion; appeal of religion to ordinary people. Pair with Bradley; contrast with official imperial cult evidence from the Forum</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== ETHICAL ISSUES PANEL ===== -->
+<div class="panel" id="panel-ethics">
+  <div class="section-head">
+    <h2>Ethical Issues</h2>
+    <p>HSC syllabus dot-point: Ethical issues — excavation and conservation, study and display of human remains</p>
+  </div>
+
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Core ethical issues — click each for detail</h3>
+  <div class="causes" style="margin-bottom:24px">
+
+    <div class="cause-item" onclick="showModal('Display and Study of Human Remains','The Code of Ethics for Museums states: "Human remains, and materials of sacred significance, should be acquired only if they can be housed and cared for respectfully." The display of Pompeii\'s plaster casts raises fundamental questions about dignity and respect for the dead. Lazer argues that assigning names, occupations and relationships to victims is disrespectful: "no one has their name engraved on their bones." She campaigns to let bones "speak for themselves" without embellishment. However, interpretive labelling — practised since Fiorelli — helps visitors engage emotionally with the human tragedy. The debate pits educational value against personal dignity, and has become more acute as DNA analysis and CT scanning make it possible to say more about each victim than ever before.','badge-political','Ethical Issue')">
+      <div class="cause-num">01</div>
+      <div class="cause-text"><h4>Display and study of human remains</h4><p>Code of Ethics for Museums: dignity and respect required. Lazer: naming victims is disrespectful — "no one has their name engraved on their bones." Tension between educational value and personal dignity</p></div>
+    </div>
+
+    <div class="cause-item" onclick="showModal('Excavation Ethics — To Dig or Not to Dig','Every excavation is a one-way process: once a layer of soil is removed, the stratigraphic context it contained is gone forever. Modern excavation ethics therefore demand that digging should only occur when there is a clear research question, sufficient resources to conserve and record what is found, and long-term plans for the care of finds. At Pompeii and Herculaneum this standard has not always been met. The treasure-hunting excavations of the 18th century destroyed irreplaceable context. Maiuri\'s post-WWII work was described as hurried and underfunded. The question of whether to resume excavation in unexcavated areas — especially Regio V and the Villa of the Papyri — remains ethically contested.','badge-political','Ethical Issue')">
+      <div class="cause-num">02</div>
+      <div class="cause-text"><h4>Excavation ethics — context, resources, responsibility</h4><p>Excavation destroys stratigraphic context permanently; requires clear research questions and conservation plans; 18th-century treasure-hunting and Maiuri's hurried post-WWII work as cautionary examples</p></div>
+    </div>
+
+    <div class="cause-item" onclick="showModal('The Villa of the Papyri — Excavate or Conserve?','The Villa of the Papyri at Herculaneum contains over 1,800 carbonised scrolls — the only surviving ancient library — plus potentially thousands more in unexcavated areas. Sir Anthony Kenny argues excavation must proceed: "The lost works waiting to be found there stagger the imagination...Posterity will not forgive us if we squander this chance." Andrew Wallace-Hadrill strongly disagrees: "the logic that drives any modern excavation must be preservation, not the pursuit of a dream." He argues the exposed trench is structurally unstable, and that excavation without adequate resources to conserve the finds would be irresponsible. The debate encapsulates the core ethical tension between the generation of new knowledge and the preservation of what already exists.','badge-political','Ethical Issue')">
+      <div class="cause-num">03</div>
+      <div class="cause-text"><h4>Villa of the Papyri — excavate or conserve?</h4><p>Kenny: "Posterity will not forgive us if we squander this chance." Wallace-Hadrill: "preservation, not the pursuit of a dream." Core tension between knowledge generation and conservation</p></div>
+    </div>
+
+    <div class="cause-item" onclick="showModal('Post-Eruption Looting — Whose Remains Are These?','Mary Beard has identified evidence of people entering Pompeii shortly after the eruption — tunnels bored through volcanic debris and messages like "house tunnelled" scratched into walls. This raises a disturbing question: might some skeletons found at Pompeii belong not to eruption victims but to people who entered the buried city in the weeks or months after 79 AD and became trapped or died? If so, the identities and stories that scholars and documentarians have attributed to these individuals are doubly unreliable — not only can we not name them, we cannot be sure they were even victims of the eruption. This demonstrates that the ethical problems of identification extend even to the question of who died when.','badge-political','Ethical Issue')">
+      <div class="cause-num">04</div>
+      <div class="cause-text"><h4>Post-eruption looting — were some "victims" actually looters?</h4><p>Beard: evidence of tunnels and "house tunnelled" messages; some skeletons may be post-eruption intruders, not 79 AD victims; complicates all identification of individual remains</p></div>
+    </div>
+
+    <div class="cause-item" onclick="showModal('Repatriation of Artefacts','Many objects removed from Pompeii and Herculaneum during the 18th and 19th centuries are now held in museums outside Italy — particularly in the British Museum, the Louvre, and museums across Europe. The ethical question of whether these objects should be repatriated to Italy, and specifically to the Naples Archaeological Museum or to the sites themselves, is part of a broader global debate about colonial-era acquisition of antiquities. Italy has been active in pursuing the return of objects taken without proper authorisation, and some have been repatriated. The question of whether returning objects to Pompeii would be practical — given conservation challenges at the site — adds another layer of complexity.','badge-political','Ethical Issue')">
+      <div class="cause-num">05</div>
+      <div class="cause-text"><h4>Repatriation of artefacts held abroad</h4><p>Objects from 18th–19th century excavations now in British Museum, Louvre and other international collections; Italy actively pursues repatriation; debate over whether return to Pompeii itself is practical</p></div>
+    </div>
+
+    <div class="cause-item" onclick="showModal('Reconstruction — Authenticity vs. Accessibility','Conservation and reconstruction at Pompeii have not always used appropriate or reversible materials. Some 20th-century restorations used concrete and non-reversible adhesives that are now causing structural problems — walls repaired with concrete have cracked and become more vulnerable than the original Roman masonry. The 2011 UNESCO report specifically criticised the "use of inappropriate materials and methods for restoration and reconstruction." The ethical principle of reversibility — that conservation work should be undoable so future generations can apply better techniques — has not always been observed. The House of the Gladiators collapse (2010) brought these issues to international attention.','badge-political','Ethical Issue')">
+      <div class="cause-num">06</div>
+      <div class="cause-text"><h4>Reconstruction — inappropriate materials and irreversible damage</h4><p>Concrete repairs cracking; UNESCO 2011 cited inappropriate methods; principle of reversibility not always observed; House of Gladiators collapse (2010) exposed these failures</p></div>
+    </div>
+
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Scholarly perspectives on key ethical debates</h3>
+  <div class="debate-grid" style="margin-bottom:24px">
+    <div class="debate-box">
+      <h4>Lazer — Dignity for the Dead</h4>
+      <div class="hist-quote" style="border-left:2px solid rgba(139,26,26,0.3);padding-left:10px;margin:8px 0;font-style:italic;font-size:0.83rem;color:#8B1A1A">"The attribution of names to any of Vesuvius' victims is very doubtful since no one has their name engraved on their bones... the bones should be allowed to speak for themselves."</div>
+      <p>Lazer's position is that the interpretive tradition — begun with Fiorelli and continued in documentaries — of naming victims and assigning them stories is both unreliable and disrespectful. She argues that modern scientific analysis (isotope analysis, DNA, CT scanning) can tell us genuinely new things about victims without the need for speculative narrative.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>Kenny vs. Wallace-Hadrill — Villa of the Papyri</h4>
+      <div class="hist-quote" style="border-left:2px solid rgba(90,60,42,0.3);padding-left:10px;margin:8px 0;font-style:italic;font-size:0.83rem;color:#5a3c2a">"Posterity will not forgive us if we squander this chance." — Kenny; "The logic that drives any modern excavation must be preservation, not the pursuit of a dream." — Wallace-Hadrill</div>
+      <p>These two positions represent a fundamental divide in archaeological ethics: the obligation to recover knowledge versus the obligation to preserve what already exists. Both scholars accept that the scrolls are irreplaceable. They disagree on which risk — loss through volcanic disruption, or loss through inadequate conservation of newly excavated material — is greater.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>Beard — Post-Eruption Complexity</h4>
+      <div class="hist-quote" style="border-left:2px solid rgba(92,42,74,0.3);padding-left:10px;margin:8px 0;font-style:italic;font-size:0.83rem;color:#5c2a4a">"House tunnelled — perhaps a message to other members of their gang, the ancient equivalent of 'we have already been here.'"</div>
+      <p>Beard's identification of post-eruption activity at Pompeii adds an uncomfortable dimension to the ethics of identification. If some skeletons are not eruption victims, then all individual identifications become suspect. Her argument does not undermine the ethical case for treating remains with dignity — it strengthens it, by demonstrating how little we can reliably know about any individual victim.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>The Code of Ethics for Museums</h4>
+      <div class="hist-quote" style="border-left:2px solid rgba(122,79,46,0.3);padding-left:10px;margin:8px 0;font-style:italic;font-size:0.83rem;color:#7a4f2e">"Human remains, and materials of sacred significance, should be acquired only if they can be housed and cared for respectfully."</div>
+      <p>The international Code of Ethics for Museums provides the formal framework within which decisions about human remains must be made. It requires that remains be treated with dignity, housed appropriately, and managed with respect for cultural sensitivities. Most museums now follow these guidelines, though their application to the specific context of Pompeii's plaster casts — which are simultaneously scientific specimens, tourist attractions and the mortal remains of individual people — remains contested.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">HSC connections</h3>
+  <div class="outcomes-grid">
+    <div class="outcome-box">
+      <h4>Ethical issues — excavation</h4>
+      <p>Key examples: 18th-century treasure-hunting; Maiuri's hurried post-WWII work; Great Pompeii Project's conservation-first approach; Villa of the Papyri debate. Key figures: de Alcubierre (negative), Fiorelli (positive), Wallace-Hadrill (conservation advocate).</p>
+    </div>
+    <div class="outcome-box">
+      <h4>Ethical issues — human remains</h4>
+      <p>Key examples: Fiorelli's plaster casts; documentary naming of victims; Lazer's challenge to identification; CT scanning and DNA analysis. Key scholars: Lazer (dignity), Beard (complexity of identification), Code of Ethics for Museums (framework).</p>
+    </div>
+    <div class="outcome-box">
+      <h4>Ethical issues — conservation</h4>
+      <p>Key examples: concrete repairs causing new damage; House of Gladiators collapse (2010); 2011 UNESCO report; Great Pompeii Project remediation. Principle of reversibility. Italian government responsibility as custodian of a World Heritage site.</p>
+    </div>
+    <div class="outcome-box">
+      <h4>Ethical issues — repatriation</h4>
+      <p>Objects in British Museum, Louvre and European collections. Italy's repatriation campaigns. Debate about whether return to Pompeii is practical given conservation challenges. Broader context of global debate about colonial-era acquisition.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOURISM PANEL ===== -->
+<div class="panel" id="panel-tourism">
+  <div class="section-head">
+    <h2>Tourism — value, impact and solutions</h2>
+    <p>HSC syllabus dot-point: Value and impact of tourism — problems and solutions</p>
+  </div>
+
+  <!-- Key tourism stats -->
+  <div class="stats-row" style="margin-bottom:24px">
+    <div class="stat-box"><div class="stat-num">3M+</div><div class="stat-label">Visitors to Pompeii per year</div></div>
+    <div class="stat-box"><div class="stat-num">300,000</div><div class="stat-label">Visitors in peak month (spring)</div></div>
+    <div class="stat-box"><div class="stat-num">2010</div><div class="stat-label">Year House of Gladiators collapsed</div></div>
+    <div class="stat-box"><div class="stat-num">#1</div><div class="stat-label">Italy's most visited archaeological site</div></div>
+    <div class="stat-box"><div class="stat-num">2011</div><div class="stat-label">UNESCO/ICOMOS emergency report</div></div>
+    <div class="stat-box"><div class="stat-num">2.3M</div><div class="stat-label">Visitors in 2010 alone (UNESCO figure)</div></div>
+  </div>
+
+  <!-- Historical context -->
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Historical context — from Grand Tour to mass tourism</h3>
+  <div class="debate-grid" style="margin-bottom:24px">
+    <div class="debate-box">
+      <h4>18th Century — The Grand Tour</h4>
+      <p>It became customary for wealthy young men to visit Pompeii and Herculaneum as part of the 'Grand Tour' — a rite of passage marking their education and social status. Visits were leisurely and scholarly. Skeletons were staged dramatically for visitors rather than left in situ. The sites were portrayed as God's punishment of a pagan society. Visiting became fashionable across Europe.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>19th Century — Romantic Tourism</h4>
+      <p>Pompeii became a must-see destination for wealthy travellers, artists and writers. Edward Bulwer-Lytton's 1834 novel <em>The Last Days of Pompeii</em> drove enormous public interest. Fascination with the macabre — particularly the human remains — shaped what visitors sought to experience. Artists, poets and intellectuals including Goethe, Shelley and Mark Twain all visited and wrote about the sites.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>20th Century — Mass Tourism Begins</h4>
+      <p>After WWII, rising living standards and cheaper travel transformed Pompeii from an elite destination into a mass-tourism site. Visitor numbers climbed steadily. The nature of tourism shifted — from extended scholarly visits to rapid, checklist-driven tours. The infrastructure of the site (pathways, signage, custodial supervision) struggled to keep pace with visitor growth. By the late 20th century Pompeii was under serious pressure.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>21st Century — Cruise Ship Tourism</h4>
+      <p>Cruise ship tourism transformed the visitor profile at Pompeii. Passengers arrive in Naples, join a set itinerary (Mt Vesuvius and Pompeii day trip; Pompeii half-day from Naples; Naples and Pompeii combined tour) and have only a few hours on site. They follow the same 'must-see' routes in large groups, concentrating impact on a small number of locations. Herculaneum and other Vesuvian sites receive far fewer cruise visitors. UNESCO noted 300,000 visitors in a single peak month in 2010.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Positive impacts -->
+  <h3 style="color:#5a3c14;font-size:1rem;margin-bottom:12px">✅ Positive impacts of tourism</h3>
+  <div class="card-grid" style="margin-bottom:24px">
+    <div class="card">
+      <div class="card-icon">💰</div>
+      <h4>Funding for Conservation</h4>
+      <div class="card-role">Economic benefit</div>
+      <p>Ticket revenue from Pompeii's 3M+ annual visitors provides significant income used to fund conservation, staffing, and the Great Pompeii Project. Without visitor income, funding for ongoing maintenance would be severely reduced. UNESCO World Heritage listing — itself driven by tourism pressure — brought international conservation funding.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌍</div>
+      <h4>Global Awareness</h4>
+      <div class="card-role">Cultural value</div>
+      <p>Tourism drives global public awareness of the sites' significance and vulnerability. Media coverage of tourist visits — including documentaries, social media posts and travel writing — shapes public understanding of Roman history and the ongoing conservation crisis. This awareness creates political will for investment in preservation.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏙</div>
+      <h4>Local Economy</h4>
+      <div class="card-role">Economic benefit</div>
+      <p>Tourism supports the wider Campanian economy — hotels, restaurants, transport operators and souvenir vendors all depend on the flow of visitors. The region's identity as a tourist destination is inseparable from the sites. Decline in visitor numbers (as during COVID-19) caused significant economic hardship for local communities.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📖</div>
+      <h4>Educational Value</h4>
+      <div class="card-role">Cultural benefit</div>
+      <p>Direct encounter with the ruins — streetscapes, plaster casts, frescoes — provides an educational experience unavailable through books or documentaries. For students and scholars, on-site visits remain irreplaceable. The sites' accessibility to the public is a key argument against radical preservation measures (such as closing large sections) that would protect structures but end public engagement.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Negative impacts -->
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">⚠ Negative impacts of tourism</h3>
+  <div class="causes" style="margin-bottom:24px">
+    <div class="cause-item" onclick="showModal('Physical Wear — Foot Traffic and Erosion','Large tour groups focus their impact on a small number of accessible sites. Foot traffic alone wears away paving stones, path surfaces and the edges of stepping stones that have survived 2,000 years but cannot withstand millions of footsteps annually. The UNESCO/ICOMOS 2011 report noted that accessible areas were severely over-visited while large areas of the site remained closed — concentrating all damage on a fraction of the city.','badge-political','Tourism')">
+      <div class="cause-num">01</div>
+      <div class="cause-text"><h4>Foot traffic and physical erosion</h4><p>2,000-year-old paving worn by millions of annual footsteps; stepping stones and path edges deteriorating; accessible areas disproportionately impacted</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Humidity and Heat from Crowds','In enclosed spaces — particularly the only positively identified brothel (lupanar), a very popular site — body heat and moisture from large tour groups degrade frescoes. Fresco pigments are sensitive to humidity fluctuations. The 2011 UNESCO report specifically flagged excessive moisture as a key factor in fresco deterioration. Even where tourists are being respectful, the atmospheric change caused by crowds causes ongoing chemical damage to painted surfaces.','badge-political','Tourism')">
+      <div class="cause-num">02</div>
+      <div class="cause-text"><h4>Humidity and heat from crowds</h4><p>Body heat and moisture in enclosed spaces degrade frescoes; the lupanar (brothel) cited as a specific example; UNESCO 2011 flagged humidity as key factor</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Vandalism, Graffiti and Theft','Not all visitors behave respectfully. Modern graffiti has been found scratched onto ancient walls. Tourists have touched sensitive painted surfaces despite barriers, rubbed bags against frescoes in crowded areas, ignored rope barriers to enter closed sections, and removed small fragments as souvenirs. Archaeologist Alia Wallace noted that "much of the decay caused by visitors comes from overcrowding and damaging behaviours, both intentional and unintentional." Poor signage and insufficient supervision have made enforcement difficult.','badge-political','Tourism')">
+      <div class="cause-num">03</div>
+      <div class="cause-text"><h4>Vandalism, graffiti and souvenir theft</h4><p>Modern graffiti on ancient walls; tourists removing fragments; bags rubbing frescoes; poor supervision and signage; Alia Wallace on intentional and unintentional damage</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Infrastructure Pressure','The need for tourist amenities — car parks, restaurants, toilet facilities, souvenir shops — has irreversibly altered the areas surrounding both sites. At Pompeii, development around the perimeter of the site was flagged as a concern in the 2011 UNESCO report. The infrastructure required to service millions of visitors competes with conservation priorities and has changed the character of the surrounding landscape and streetscapes.','badge-political','Tourism')">
+      <div class="cause-num">04</div>
+      <div class="cause-text"><h4>Infrastructure pressure and development</h4><p>Car parks, restaurants and facilities around the site; UNESCO 2011 flagged uncontrolled surrounding development; irreversible changes to the landscape</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Cruise Ship Tourism — Brief, Concentrated Visits','Cruise tourists arrive in Naples and join set-itinerary tours to Pompeii with only a few hours on site. They must follow the most popular routes — concentrating their impact on the same small set of locations. Because of the brief visiting time, they cannot explore the less-visited parts of the site. This pattern means the most famous and most fragile locations suffer disproportionate wear while less-visited areas are neglected from a conservation standpoint. Cruise tourism has also adversely affected the local economy as visitors spend most of their money on the ship rather than locally.','badge-political','Tourism')">
+      <div class="cause-num">05</div>
+      <div class="cause-text"><h4>Cruise tourism — concentrated, brief visits</h4><p>Cruise passengers on timed excursions crowd must-see routes; less visited areas receive no benefit; money spent on ships not locally; hastens decay at specific locations</p></div>
+    </div>
+    <div class="cause-item" onclick="showModal('Lack of Supervision and Access Control','The 2011 UNESCO/ICOMOS report noted that of approximately 1,000 staff at the Superintendent\'s office, the majority were custodial and administrative — only 12 were archaeologists and 3 architects. This meant large areas of the site had to be closed due to lack of supervision, while accessible areas were dangerously overcrowded. Tourists who knew they were entering closed areas still did so. Inadequate signage and insufficient staff meant rules could not be enforced consistently.','badge-political','Tourism')">
+      <div class="cause-num">06</div>
+      <div class="cause-text"><h4>Insufficient supervision and access control</h4><p>UNESCO 2011: only 12 archaeologists among 1,000 staff; accessible areas overcrowded; closed areas entered by tourists; inadequate signage</p></div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Solutions -->
+  <h3 style="color:#3a4a6b;font-size:1rem;margin-bottom:12px">🔧 Proposed and implemented solutions</h3>
+  <div class="debate-grid" style="margin-bottom:24px">
+    <div class="debate-box blue">
+      <h4>Visitor Quotas and Timed Entry</h4>
+      <p>Limiting the number of visitors at any one time, particularly in sensitive enclosed spaces. Timed entry tickets spread visitor flow across the day rather than concentrating it at peak times. Several scholars and the 2011 UNESCO report recommended formal visitor management plans that had not yet been implemented at the time.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>New Pathways and Visitor Routes</h4>
+      <p>Rispoli and Siannelli proposed new visitor pathways that spread tourists across more of the site, reducing pressure on the most popular locations. Opening previously closed sections — made possible by the Great Pompeii Project's conservation work — would distribute visitor impact more evenly and reduce overcrowding at the most fragile sites.</p>
+    </div>
+    <div class="debate-box">
+      <h4>Improved Signage and Education</h4>
+      <p>Better multilingual signage explaining the fragility of specific locations and why barriers must be respected. Educational materials provided before or during visits to encourage responsible behaviour. Digital guides and augmented reality tools allow visitors to engage deeply with the site without touching or entering fragile structures.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>The Great Pompeii Project</h4>
+      <p>Launched in 2012, the Project has both conserved existing structures and opened new areas to visitors — helping to spread tourism impact. Drone mapping, 3D modelling and new digital infrastructure have improved site management. The Project has made Pompeii more resilient to tourism pressure while simultaneously increasing its appeal as a destination.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Historian debate on tourism -->
+  <h3 style="color:#8B1A1A;font-size:1rem;margin-bottom:12px">Historian debate — the value of tourism at Pompeii</h3>
+  <div class="debate-grid">
+    <div class="debate-box">
+      <h4>Mary Beard — Tourism is Overstated as a Threat</h4>
+      <div class="quote" style="font-style:italic;font-size:0.85rem;color:#8B1A1A;margin:8px 0">"It doesn't really matter if tourists damage Pompeii."</div>
+      <p>Beard argues that Pompeii has never been a pristine, intact time-capsule. The site was looted within weeks of the eruption, damaged by Allied bombing in WWII, poorly excavated for centuries, and subjected to decades of inadequate conservation. Framing tourist behaviour as the primary threat misrepresents the site's history of damage. She argues that public engagement and accessibility are more important than perfect preservation.</p>
+    </div>
+    <div class="debate-box teal">
+      <h4>UNESCO/ICOMOS — Tourism is a Serious Threat</h4>
+      <div class="quote" style="font-style:italic;font-size:0.85rem;color:#5a3c2a;margin:8px 0">"Accessible parts are over-visited and suffer considerably from visitor erosion." (2011 Report)</div>
+      <p>The 2011 UNESCO/ICOMOS report directly linked tourist pressure to structural deterioration. It noted that 2.3 million visitors in 2010, concentrated in accessible areas, caused measurable erosion. The report called for a formal visitor management plan, improved supervision and investment in opening new areas to spread the impact. Tourism was identified as both an economic necessity and a conservation crisis.</p>
+    </div>
+    <div class="debate-box gold">
+      <h4>Alia Wallace — Behaviour, Not Just Numbers</h4>
+      <div class="quote" style="font-style:italic;font-size:0.85rem;color:#7a4f2e;margin:8px 0">"Much of the decay comes from overcrowding and damaging behaviours, both intentional and unintentional."</div>
+      <p>Wallace's archaeological perspective focuses on specific visitor behaviours rather than visitor numbers alone. Even respectful tourists cause damage through the cumulative effect of body heat, moisture and physical contact. Bags rubbing against frescoes in crowded corridors, leaning on walls and foot traffic on fragile paving are cited as key mechanisms of damage. Her argument supports targeted solutions — better pathways, improved supervision — over blanket visitor restrictions.</p>
+    </div>
+    <div class="debate-box purple">
+      <h4>Robert Harris — The Accessibility Dilemma</h4>
+      <div class="quote" style="font-style:italic;font-size:0.85rem;color:#5c2a4a;margin:8px 0">"You tread such a narrow line between trying to make it authentic and make it accessible." (On writing about Pompeii, 2003)</div>
+      <p>Harris's reflection on writing his 2003 novel captures a broader dilemma: the more accessible a site (or its story) is made, the more it attracts visitors — increasing the very pressure it is trying to manage. Full authenticity (restricted access, minimal reconstruction) reduces visitor appeal; maximum accessibility increases damage. This tension has no neat resolution and defines the ongoing debate about Pompeii's future.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-head"><h2>Tourism statistics — visitor numbers over time</h2></div>
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-num">2.3M</div><div class="stat-label">Visitors in 2010 (UNESCO figure)</div></div>
+    <div class="stat-box"><div class="stat-num">3.9M</div><div class="stat-label">Visitors in 2019 (pre-COVID peak)</div></div>
+    <div class="stat-box"><div class="stat-num">300K</div><div class="stat-label">Visitors in single peak month (2010)</div></div>
+    <div class="stat-box"><div class="stat-num">12</div><div class="stat-label">Archaeologists among 1,000 site staff (2011)</div></div>
+    <div class="stat-box"><div class="stat-num">€105M</div><div class="stat-label">EU Great Pompeii Project funding (2012–)</div></div>
+    <div class="stat-box"><div class="stat-num">~0</div><div class="stat-label">Cruise itineraries offered to Herculaneum</div></div>
+  </div>
+</div>
+
+<script>
+// Render timeline — horizontal landscape
+const tlContainer = document.getElementById('timeline-render');
+dates.forEach((d,i) => {
+  tlContainer.innerHTML += `
+  <div class="tl-item-h" onclick="showModal('${d.title.replace(/'/g,"\\'")}','${d.desc.replace(/'/g,"\\'")}','${d.badge}','${d.badgeText}')">
+    <div class="tl-year-h">${d.year}</div>
+    <div class="tl-dot-h"></div>
+    <div class="tl-card">
+      <h4>${d.title}</h4>
+      <p>${d.desc.substring(0,85)}…</p>
+      <span class="tl-badge ${d.badge}">${d.badgeText}</span>
+    </div>
+  </div>`;
+});
+
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function togglePhase(id, btn) {
+  const el = document.getElementById(id);
+  const isOpen = el.classList.contains('show');
+  document.querySelectorAll('.phase-detail').forEach(d => d.classList.remove('show'));
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  if (!isOpen) { el.classList.add('show'); btn.classList.add('active'); }
+}
+
+function showModal(title, body, badgeClass, badgeText) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = body;
+  const tag = document.getElementById('modal-tag');
+  tag.textContent = badgeText;
+  tag.className = 'tag ' + badgeClass;
+  tag.style.background = badgeClass.includes('erupt') ? 'rgba(192,57,43,0.2)' :
+    badgeClass.includes('arch') ? 'rgba(39,174,96,0.2)' :
+    badgeClass.includes('discovery') ? 'rgba(243,156,18,0.2)' :
+    badgeClass.includes('turning') ? 'rgba(155,89,182,0.2)' : 'rgba(52,152,219,0.2)';
+  tag.style.color = badgeClass.includes('erupt') ? '#e74c3c' :
+    badgeClass.includes('arch') ? '#2ecc71' :
+    badgeClass.includes('discovery') ? '#f39c12' :
+    badgeClass.includes('turning') ? '#9b59b6' : '#3498db';
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+<!-- FOOTER -->
+<footer style="background:#6b1313;color:rgba(255,255,255,0.7);text-align:center;padding:24px 20px;margin-top:40px;font-size:0.82rem;font-family:'Calibri','Calibri Light',Candara,Optima,sans-serif;">
+  <div style="max-width:900px;margin:0 auto;">
+    <p style="color:#fff;font-weight:600;margin-bottom:6px">Pompeii &amp; Herculaneum — HSC Ancient History Interactive Revision Resource</p>
+    <p>NSW Syllabus · Core Study: Cities of Vesuvius · For educational use</p>
+    <p style="margin-top:8px">This resource is provided for student study and revision. Content is based on the NSW HSC Ancient History syllabus dot-points. All historical information, scholarly quotes and source analysis are for educational purposes only.</p>
+    <p style="margin-top:10px;color:rgba(255,255,255,0.5);">Download this file and open in any web browser — no internet connection required &nbsp;·&nbsp; Works on Windows, Mac, iPad and Chromebook</p>
+  </div>
+</footer>
+
+</body>
+</html>
